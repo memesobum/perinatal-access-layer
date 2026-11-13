@@ -30,7 +30,8 @@ SPOT = {  # named spot checks: Nevada (the author's own maps) plus national extr
     "48301": "Loving County, TX (smallest population)",
     "30033": "Garfield County, MT (frontier)",
     "02290": "Yukon-Koyukuk Census Area, AK (off-road villages)",
-    "15005": "Kalawao County, HI (no road connection)",
+    "15005": "Kalawao County, HI (Kalaupapa; no road out)",
+    "02100": "Haines Borough, AK (state ferry; road via Canada)",
     "36061": "New York County, NY (dense metro)",
 }
 
@@ -53,6 +54,8 @@ def main():
         if f.startswith("roads_") and f.endswith("_stats.json"):
             r = json.load(open(os.path.join(WORK, f)))
             w(f"  {f[6:-11]:<14} {r['km_road']:>12,.0f} km  {r['edges']:>11,} links  ({r['source']})")
+    w(f"  mapped road lines, links shared by overlapping regional files counted once: {rs['km_road']:,.0f} km "
+      f"(divided highways count both directions; private roads included); car ferries: {rs['km_ferry']:,.0f} km")
     w(f"  national graph: {rs['vertices']:,} road points, {rs['arcs']:,} one-way links, "
       f"{rs['components']:,} strongly connected pieces; {rs['share_vertices_in_main']:.2%} of points in "
       f"{rs['main_networks']:,} main networks")
@@ -65,18 +68,27 @@ def main():
     w(f"  distance from center to nearest usable road (km): median {q[.5]}, 90th pct {q[.9]}, 99th pct {q[.99]}")
     w(f"  block groups farther than 5 km from a road: {(o.snap_km > 5).sum():,} "
       f"({o.loc[o.snap_km > 5, 'women_15_44'].sum():,.0f} women)")
-    w(f"  not connected (more than 25 km): {rs['bg_not_connected']:,} block groups, "
-      f"{rs['women_not_connected']:,.0f} women")
+    w(f"  not connected: {rs['bg_not_connected']:,} block groups, {rs['women_not_connected']:,.0f} women; of these, "
+      f"{rs['bg_separate_network']:,} block groups ({rs['women_separate_network']:,.0f} women) are on islands or "
+      "shores with no car connection (nearest main road is across open water), the rest are more than 25 km from any road")
+    w(f"  by status: {o.origin_status.value_counts().to_dict()}")
 
     w("\n3. CARE SITES")
     g = pd.read_csv(os.path.join(PROC, "sites_geo_methods.csv")).set_index("service_type")
     w(g.T.to_string())
     w(f"  sites farther than 25 km from a usable road (not routed): {rs['sites_not_routed']}")
+    sm = pd.read_csv(os.path.join(PROC, "qa_site_state_mismatches.csv"))
+    w(f"  sites whose coordinates fell in a different state from their address: {len(sm)} rows "
+      f"(moved to ZIP point: {(sm.geo_method.str.startswith('zip')).sum()}, unplaced: "
+      f"{(sm.geo_method.str.startswith('unplaced')).sum()}); listed in qa_site_state_mismatches.csv")
+    w("  health centers: 11,769 sites = Project 1's 11,769 counted sites (11,768 with HRSA coordinates + 1 placed at its ZIP point)")
     for t in SERVICE_TYPES:
         w(f"  {t:<14} routed sites: {rs.get('sites_routed_' + t, 0):,}")
     hd = s[(s.service_type == "ob_hosp_upper") & (s.census_vs_cms_km > 2)].sort_values("census_vs_cms_km", ascending=False)
     w(f"  hospitals where the Census geocode and CMS's geocode differ by more than 2 km: {len(hd)} "
       "(listed in qa_hospital_geocode_differences.csv; the CMS point was used only for non-exact Census matches)")
+    w(f"  hospitals placed at their town's interior point (address not geocodable): "
+      f"{int(((s.service_type == 'ob_hosp_upper') & (s.geo_method == 'town_interior_point')).sum())}")
     hd[["site_id", "name", "city", "state", "geo_method", "census_vs_cms_km"]].to_csv(
         os.path.join(PROC, "qa_hospital_geocode_differences.csv"), index=False)
 
@@ -91,7 +103,9 @@ def main():
     w(f"  women in county table vs block groups: {c.women_15_44.sum():,.0f} vs {o.women_15_44.sum():,.0f}")
     w(f"  counties in table: {len(c):,}; counties with no block group: {int(c.block_groups.isna().sum())}")
 
-    w("\n5. UNREACHABLE BY ROAD (women in block groups with no road route to any delivering hospital)")
+    w("\n5. UNREACHABLE (women in block groups with no road route to any delivering hospital within 600 minutes)")
+    w("  Southeast Alaska towns on the state ferry (e.g. Haines, Skagway, Hoonah-Angoon) are in this group: the ferry is in")
+    w("  the road data, but long crossings without a tagged duration run at the OSRM default of 5 km/h and exceed 600 minutes.")
     u = o[o.min_ob_hosp.isna()]
     w(f"  {len(u):,} block groups, {u.women_15_44.sum():,.0f} women; by state: "
       f"{u.groupby(u.fips.str[:2]).women_15_44.sum().sort_values(ascending=False).head(8).round(0).to_dict()}")

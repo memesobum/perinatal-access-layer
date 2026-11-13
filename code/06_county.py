@@ -28,7 +28,8 @@ def wquantile(x, w, q):
         return np.nan
     o = np.argsort(x)
     cw = np.cumsum(w[o]) / w.sum()
-    v = x[o][np.searchsorted(cw, q)]
+    k = np.searchsorted(cw, q)
+    v = x[o][k]
     return v if np.isfinite(v) else np.inf
 
 

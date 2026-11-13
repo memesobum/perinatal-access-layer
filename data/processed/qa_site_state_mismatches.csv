@@ -1,0 +1,7 @@
+service_type,site_id,name,city,state,zip,geo_method
+ppw_bh,FT48d25d726dd8,Lost River Treatment Center,Wyandotte,OK,74370,zip_interior_point_after_state_mismatch
+ppw_bh,FT93c9dc5d609d,Community Counseling Solutions,Arlington,OR,97812,zip_interior_point_after_state_mismatch
+mh_any,FTb171c6ea89ae,Healthcare and Rehabilitation Services,Hartford,VT,05047,unplaced_state_mismatch
+mh_any,FT1496048dc7bd,Hutchinson Health,Hutchinson,MN,55350,zip_interior_point_after_state_mismatch
+mh_any,FTeddc7a480cbe,Mountain Comprehensive Care Center,Whitesburg,KY,41858,zip_interior_point_after_state_mismatch
+mh_any,FTc9b23f57e144,Community Counseling Solutions,Arlington,OR,97812,zip_interior_point_after_state_mismatch

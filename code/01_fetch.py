@@ -44,6 +44,9 @@ STATIC = {
     "2024_Gaz_zcta_national.zip": (
         "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2024_Gazetteer/2024_Gaz_zcta_national.zip",
         "Census 2024 Gazetteer, ZCTAs; interior points used to place obstetric clinician ZIPs"),
+    "2024_Gaz_place_national.zip": (
+        "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2024_Gazetteer/2024_Gaz_place_national.zip",
+        "Census 2024 Gazetteer, places; town interior points used for hospitals whose street address cannot be geocoded"),
     "cb_2024_us_county_500k.zip": (
         "https://www2.census.gov/geo/tiger/GENZ2024/shp/cb_2024_us_county_500k.zip",
         "Census 2024 cartographic boundary file, counties, 1:500,000; maps only"),

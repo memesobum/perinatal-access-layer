@@ -173,6 +173,12 @@ def stats(c, rt):
         S[f"rf_women_gt60_{t}"] = float(rf[f"{t}_women_gt60"].sum())
     S["counties_majority_gt60_all_three"] = int(((c.ppw_bh_share_gt60 > .5) & (c.ob_hosp_share_gt60 > .5)
                                                 & (c.hc_share_gt60 > .5)).sum())
+    a3 = c[(c.ppw_bh_share_gt60 > .5) & (c.ob_hosp_share_gt60 > .5) & (c.hc_share_gt60 > .5)]
+    S["all_three_frontier"] = int((a3.frontier == 1).sum())
+    S["all_three_small_women"] = int((a3.women_15_44 < 500).sum())
+    S["all_three_women"] = float(a3.women_15_44.sum())
+    nv = c[(c.state == "NV") & (c.ob_hosp_share_gt60 >= 0.999)].sort_values("county_name")
+    S["nv_all_beyond60_ob"] = [x.replace(" County", "") for x in nv.county_name]
     S["rf_counties_majority_gt60_all_three"] = int(((rf.ppw_bh_share_gt60 > .5) & (rf.ob_hosp_share_gt60 > .5)
                                                    & (rf.hc_share_gt60 > .5)).sum())
     S["rural_frontier_counties"] = int(len(rf))

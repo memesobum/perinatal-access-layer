@@ -1,6 +1,18 @@
 # Publishing guide
 
-*Plain-language summary: step-by-step instructions for putting Project 2 on GitHub, getting its DOI from Zenodo, and posting the paper as a preprint. Nothing has been uploaded yet. Do these steps only after you finish `VERIFY_CHECKLIST.md` and Claude has rebuilt the files without draft stamps. For Project 1 you already turned on the GitHub-to-Zenodo link, so for this project the DOI is made automatically when you publish a GitHub release.*
+*Plain-language summary: step-by-step instructions to get Project 2 a DOI, put it on GitHub and Zenodo, and post the paper. You verified v0.1.0 on 2026-11-13 and the files are built without draft stamps. Two things must still happen before the publish gate passes: the DOI is reserved, and that DOI is written into the files. This guide does both, in the right order.*
+
+## Why the order matters
+
+The README, citation file, and paper should carry the DOI of the archive they sit in. Zenodo can **reserve** a DOI before anything is published, so the order is:
+
+1. Reserve the DOI.
+2. Write it into the files.
+3. Pass the gate.
+4. Push to GitHub.
+5. Upload the archive to the reserved Zenodo record and publish it.
+
+**Important: leave the GitHub-to-Zenodo switch OFF for this repository.** You turned that link on for Project 1. If it is also on for this repository, a GitHub release makes a second, different DOI. For this project, Zenodo is filled by hand (or by Claude) using the reserved DOI.
 
 ## Copy-ready text
 
@@ -14,74 +26,82 @@
 
 **Keywords:** perinatal behavioral health; travel time; drive time; geographic access; obstetric care; substance use treatment; rural health; frontier; OpenStreetMap; open data
 
-**License:** code MIT; data and documents CC BY 4.0; road-derived values contain information from OpenStreetMap (© OpenStreetMap contributors, ODbL)
+**License:** Creative Commons Attribution 4.0 International. Code inside is MIT. Road-derived values: © OpenStreetMap contributors (ODbL).
 
-**Related work:** Project 1, DOI 10.5281/zenodo.24025395 (relation: "Is derived from" or "References")
+**Version:** 0.1.0. **Resource type:** Dataset.
 
-## Before any upload (5 min)
+**Description:** use the "In plain terms" paragraph from README.md, followed by the headline table.
 
-1. Tell Claude "verified", and Claude rebuilds the files with `PANEL_FINAL=1`.
-2. Run `python3 tools/publish_gate.py . --allow-draft-in code tools paper`. It must print `gate: clear`.
+**Related works:**
+- `https://github.com/memesobum/perinatal-access-layer`, relation "Is supplemented by"
+- Project 1, `10.5281/zenodo.24025395`, relation "References"
 
-## Option A: Claude uploads for you (10 min of your time)
+## Option A: Claude does it (about 10 minutes of your time)
 
-1. **GitHub token.** Go to https://github.com/settings/tokens/new and fill in:
-   - Note: "access layer upload"
+1. **Zenodo token.** Go to https://zenodo.org/account/settings/applications/tokens/new/ and fill in:
+   - Name: "access layer"
+   - Tick **deposit:write** and **deposit:actions**.
+
+   Click **Create** and copy the token.
+2. **GitHub token.** Go to https://github.com/settings/tokens/new and fill in:
+   - Note: "access layer"
    - Expiration: 7 days
-   - Tick the **repo** box.
+   - Tick **repo**.
 
-   Click **Generate token** and copy the token (it starts with `ghp_`).
-2. In a Claude session with this project, say: "Publish Project 2. Here is my GitHub token." Claude then:
-   - creates the repository
-   - pushes the files
-   - shows you the page
-   - publishes release `v0.1.0` only after you say yes
-3. Zenodo makes the DOI by itself within a few minutes. To find it, go to https://zenodo.org/account/settings/github/ and click the repository. Then delete the token at https://github.com/settings/tokens. (A token is a temporary password. Deleting it ends Claude's access.)
+   Click **Generate token** and copy the token.
+3. In a Claude session with this project, say: "Publish Project 2. Here are my tokens." Claude then:
+   - runs `tools/reserve_doi.py` and `tools/set_doi.py`, and rebuilds the paper
+   - runs `tools/gate.sh` until it prints `gate: clear`
+   - pushes to GitHub
+   - tests the Zenodo upload on the Zenodo sandbox and shows you the practice record
+   - publishes the real record only after you say yes
+4. Afterward, delete both tokens: GitHub at https://github.com/settings/tokens and Zenodo at https://zenodo.org/account/settings/applications/.
 
-## Option B: you upload (about 30 min)
+## Option B: you do it (about 40 minutes)
 
-1. Go to https://github.com/new and fill in:
+1. **Reserve the DOI.** Log in at https://zenodo.org (Log in with ORCID) and click **New upload**. Under "Do you already have a DOI?" choose **No**, then click **Get a DOI now!**. Copy the DOI shown (it looks like `10.5281/zenodo.1234567`). Click **Save draft** and leave the page open.
+2. **Write the DOI into the files.** In a terminal in the project folder, run:
+   ```
+   python3 tools/set_doi.py 10.5281/zenodo.1234567
+   python3 paper/make_tex_inputs.py && (cd paper && latexmk -pdf -quiet main.tex)
+   bash tools/gate.sh
+   ```
+   The last line must print `gate: clear`.
+3. **Commit, then push to GitHub.** Go to https://github.com/new and fill in:
    - Name: `perinatal-access-layer`
    - Visibility: Public
    - Do **not** add a README.
 
-   Click **Create repository**.
-2. Go to https://zenodo.org/account/settings/github/, click **Sync now**, and flip the switch next to `memesobum/perinatal-access-layer` to **On**.
-3. Push the project. The project folder is already a Git repository with one commit under your name. In a terminal inside the folder, paste:
+   Click **Create repository**. Then in the project folder run:
    ```
+   git add -A && git commit -m "Add DOI"
+   git tag v0.1.0
    git remote add origin https://github.com/memesobum/perinatal-access-layer.git
-   git push -u origin main
+   git push -u origin main --tags
    ```
-   When asked for a password, paste a GitHub token (Option A, step 1), not your account password.
-4. On GitHub, click **Releases**, then **Draft a new release**, and fill in:
-   - Tag: `v0.1.0` (choose "create new tag")
-   - Title: `v0.1.0`
-   - Description: paste your own one-paragraph summary.
+   When asked for a password, paste the GitHub token (Option A, step 2), not your account password.
+4. **Make the archive.** On the GitHub repository page, click **Code** and then **Download ZIP**.
+5. **Fill the Zenodo draft.** Go back to the draft from step 1 and fill in:
+   - Upload the ZIP.
+   - Fill the fields from "Copy-ready text" above.
+   - Add yourself as creator, with your ORCID.
 
-   Click **Publish release**.
-5. Wait about 5 minutes, then open https://zenodo.org/account/settings/github/ and click the repository. The DOI badge appears, with a number like `10.5281/zenodo.NUMBER`.
-6. On the Zenodo record, click **Edit** and make three changes:
-   - Under Related works, add Project 1's DOI (10.5281/zenodo.24025395) as "References".
-   - Check that the license says CC BY 4.0.
-   - Paste the keywords above.
-
-   Then click **Publish**.
+   Click **Preview**, read it once, then click **Publish**.
 
 ## The same day you publish (10 min)
 
-1. Tell Claude the DOI. Claude then:
-   - puts it in the README, `CITATION.cff`, and the paper
-   - replaces "[DOI pending]"
-   - rebuilds the paper
-   - commits these changes
-2. Save the Zenodo page as a PDF (browser Print, then Save as PDF).
-3. Add a row to `docs/EVIDENCE_LOG.csv` (Claude can do this). Publications not logged the day they happen are the ones that go missing later.
+1. Save the Zenodo record page as a PDF (browser Print, then Save as PDF).
+2. Ask Claude to add a row to `docs/EVIDENCE_LOG.csv`, or add it yourself:
+   `2026-MM-DD,Perinatal Care Access Layer v0.1.0,dataset,Zenodo + GitHub,10.5281/zenodo.NUMBER,live,https://doi.org/10.5281/zenodo.NUMBER,0 downloads at release,zenodo_record.pdf,Verified by author 2026-11-13`
 
-## Preprint (20 min, after the DOI exists)
+   Publications not logged the day they happen are the ones that go missing later.
 
-You used preprints.org for Project 1. The same server suits this paper. medRxiv is the other option for a health-services paper.
+## Preprint (20 min, after the DOI is live)
+
+You used preprints.org for Project 1, and it suits this paper too. medRxiv is the other option for a health-services paper.
+
 1. Log in at https://www.preprints.org and click **Submit**. Choose subject area **Public Health and Healthcare**, and article type **Article**.
-2. Upload `paper/main.pdf`. Paste the title, the abstract (your own words), and the keywords above.
+2. Upload `paper/main.pdf`. Paste the title, the abstract, and the keywords above.
 3. Author: as above, with ORCID. Under data availability, give the GitHub link and the DOI.
 4. Declarations:
    - Funding: none.

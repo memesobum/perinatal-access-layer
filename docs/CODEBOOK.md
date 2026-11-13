@@ -29,7 +29,7 @@
 | `block_groups`, `block_groups_no_women` | Number of block groups; how many have zero women 15 to 44 | Census |
 | `<t>_women_gt30`, `<t>_women_gt60` | Women whose drive to the nearest `<t>` site is more than 30 (60) minutes, or who cannot reach one by road | computed |
 | `<t>_share_gt30`, `<t>_share_gt60` | The same as a share of the county's women (0 to 1). Blank where the county has no women 15 to 44 | computed |
-| `<t>_women_unreachable` | Women in block groups with no road route to any `<t>` site (or more than 25 km from a road) | computed |
+| `<t>_women_unreachable` | Women in block groups with no road route to any `<t>` site within 600 minutes: off-road villages, islands with no car connection, ferry-dependent towns whose crossing exceeds the limit, and block groups more than 25 km from a road | computed |
 | `<t>_median_min` | Women-weighted median drive, minutes. Blank if the median woman cannot reach a site by road (see next column) | computed |
 | `<t>_median_unreachable` | 1 if more than half the county's women cannot reach a `<t>` site by road | computed |
 | `<t>_mean_min` | Women-weighted mean drive among women who can reach a site, minutes | computed |
@@ -54,18 +54,19 @@ Note: "Frontier" includes 22 counties that are metro by RUCC but have fewer than
 | `pop2020` | 2020 Census population (from the center file) |
 | `women_15_44`, `women_15_44_moe` | ACS estimate and 90% margin of error (summed by the Census approximation) |
 | `snap_km` | Straight-line km from the center to its road point |
-| `connected` | False if more than 25 km from any usable road |
+| `origin_status` | `connected`; `no_road_within_25km`; or `separate_road_network` (an island or shore with no car connection: the nearest main-network road is across open water) |
+| `connected` | True only when `origin_status` is `connected` |
 | `origin_conn_min` | Connector minutes from center to road |
-| `min_<t>` | Drive minutes to the nearest `<t>` site; blank = not reachable by road within 600 minutes |
+| `min_<t>` | Drive minutes to the nearest `<t>` site; blank = no road route within 600 minutes (includes not-connected block groups) |
 | `site_<t>` | Id of that nearest site |
 
 ## `data/processed/sites.csv` (one row per site per care type)
 
-`service_type` (care type code), `site_id`, `name`, `address`, `city`, `state`, `zip`, `lat`, `lon`, `geo_method` (how the point was found: `census_geocoder_exact`, `cms_birthing_friendly_geocode`, `census_geocoder_nonexact`, `findtreatment_coordinates`, `hrsa_coordinates`, `zip_interior_point`, or unplaced), `detail` (hospital type and labor and delivery status; clinician count; facility type and setting), `census_vs_cms_km` (hospitals: distance between the Census and CMS geocodes where both exist).
+`service_type` (care type code), `site_id`, `name`, `address`, `city`, `state`, `zip`, `lat`, `lon`, `geo_method` (how the point was found: `census_geocoder_exact`, `cms_birthing_friendly_geocode`, `census_geocoder_nonexact`, `findtreatment_coordinates`, `hrsa_coordinates`, `town_interior_point` (hospitals whose street address could not be geocoded: the Census place point for the listed town), `zip_interior_point`, `zip_interior_point_after_state_mismatch`, or unplaced), `state_check` (`ok`, or what was done when the point fell in another state), `detail` (hospital type and labor and delivery status; clinician count; facility type and setting), `census_vs_cms_km` (hospitals: distance between the Census and CMS geocodes where both exist).
 
 ## Other files
 
 - `cms_hospital_ld_status.csv`: every CMS hospital in the 50 states and DC with its SM_7 answer, whether perinatal care measures were reported, and the resulting labor and delivery status.
 - `validation_osrm_sample.csv`: the 450 OSRM check trips (origin, site, this project's minutes, OSRM minutes and km).
 - `validation_summary.json`, `route_stats.json`, `origins_stats.json`: numbers quoted in the QA report and paper.
-- `qa_report.txt`, `qa_hospital_geocode_differences.csv`: quality checks (read first).
+- `qa_report.txt`, `qa_hospital_geocode_differences.csv`, `qa_site_state_mismatches.csv`: quality checks (read first).

@@ -124,12 +124,12 @@ def read_osm(loc):
         if r is None or len(w.nodes) < 2:
             continue
         nodes = w.nodes
-        xs = [n.x for n in nodes]
+        xs = [nd.x for nd in nodes]
         if bad in xs:
             continue
-        ids.extend([n.ref for n in nodes])
+        ids.extend([nd.ref for nd in nodes])
         ix.extend(xs)
-        iy.extend([n.y for n in nodes])
+        iy.extend([nd.y for nd in nodes])
         wlen.append(len(nodes))
         cls.append(r[0])
         sf.append(r[1])

@@ -1,7 +1,7 @@
-service_type,census_geocoder_exact,census_geocoder_nonexact,cms_birthing_friendly_geocode,findtreatment_coordinates,hrsa_coordinates,unplaced,unplaced_zip_not_a_zcta,zip_interior_point
-hc,0,0,0,0,11768,0,0,1
-mh_any,0,0,0,11742,0,44,0,851
-ob_clin,0,0,0,0,0,0,200,9143
-ob_hosp,1706,30,655,0,0,0,0,33
-ob_hosp_upper,2115,191,655,0,0,0,0,126
-ppw_bh,0,0,0,4336,0,15,0,249
+service_type,census_geocoder_exact,census_geocoder_nonexact,cms_birthing_friendly_geocode,findtreatment_coordinates,hrsa_coordinates,town_interior_point,unplaced,unplaced_state_mismatch,unplaced_zip_not_a_zcta,zip_interior_point,zip_interior_point_after_state_mismatch
+hc,0,0,0,0,11768,0,0,0,0,1,0
+mh_any,0,0,0,11738,0,0,44,1,0,851,3
+ob_clin,0,0,0,0,0,0,0,0,200,9143,0
+ob_hosp,1706,30,655,0,0,33,0,0,0,0,0
+ob_hosp_upper,2115,191,655,0,0,125,0,0,0,1,0
+ppw_bh,0,0,0,4334,0,0,15,0,0,249,2

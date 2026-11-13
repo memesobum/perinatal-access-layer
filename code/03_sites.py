@@ -30,11 +30,23 @@ GEOCODE_CACHE = os.path.join(RAW, "census_geocoder_hospitals.csv")
 
 def zcta_points():
     with zipfile.ZipFile(os.path.join(RAW, "2024_Gaz_zcta_national.zip")) as z:
-        name = [n for n in z.namelist() if n.endswith(".txt")][0]
+        name = [fn for fn in z.namelist() if fn.endswith(".txt")][0]
         g = pd.read_csv(z.open(name), sep="\t", dtype=str)
     g.columns = [c.strip() for c in g.columns]
     return pd.DataFrame({"zip": g.GEOID.str.strip(), "zlat": pd.to_numeric(g.INTPTLAT),
                          "zlon": pd.to_numeric(g.INTPTLONG.str.strip())}).set_index("zip")
+
+
+def place_points():
+    """Town (Census place) interior points keyed by (STATE, NORMALIZED NAME)."""
+    with zipfile.ZipFile(os.path.join(RAW, "2024_Gaz_place_national.zip")) as z:
+        name = [fn for fn in z.namelist() if fn.endswith(".txt")][0]
+        g = pd.read_csv(z.open(name), sep="\t", dtype=str, encoding="latin-1")
+    g.columns = [c.strip() for c in g.columns]
+    nm = g.NAME.str.replace(r" (city|town|village|CDP|borough|municipality|city and borough)$", "", regex=True)
+    g["key"] = g.USPS + "|" + norm(nm)
+    g = g.drop_duplicates("key")
+    return pd.DataFrame({"plat": pd.to_numeric(g.INTPTLAT), "plon": pd.to_numeric(g.INTPTLONG.str.strip())}).set_index(g.key)
 
 
 def obstetric_hospitals():
@@ -124,6 +136,13 @@ def place_hospitals(d, zp):
     fn = d.lat.isna() & d.glat.notna()
     d.loc[fn, ["lat", "lon"]] = d.loc[fn, ["glat", "glon"]].values
     d.loc[fn, "geo_method"] = "census_geocoder_nonexact"
+    # Next: the town's interior point (Census place), which is much closer than a large rural ZIP's center
+    # (e.g. Nome, Kotzebue, and Dillingham, Alaska, list PO-box-style addresses the geocoder cannot match).
+    pp = place_points().reindex(d.State + "|" + norm(d["City/Town"]))
+    fp = d.lat.isna() & pp.plat.notna().values
+    d.loc[fp, "lat"] = pp.plat.values[fp.values]
+    d.loc[fp, "lon"] = pp.plon.values[fp.values]
+    d.loc[fp, "geo_method"] = "town_interior_point"
     fz = d.lat.isna()
     d.loc[fz, "lat"] = z.zlat.values[fz.values]
     d.loc[fz, "lon"] = z.zlon.values[fz.values]
@@ -140,6 +159,46 @@ def haversine_km(la1, lo1, la2, lo2):
     p1, p2 = np.radians(la1), np.radians(la2)
     a = np.sin((p2 - p1) / 2) ** 2 + np.cos(p1) * np.cos(p2) * np.sin(np.radians(lo2 - lo1) / 2) ** 2
     return 2 * 6371.0088 * np.arcsin(np.sqrt(a))
+
+
+def state_check(s, zp):
+    """Catch coordinates that land in a different state from the listed address (for example, a site in
+    Arlington, OR geocoded to Arlington, TX). Such points are moved to the ZIP code's interior point when
+    that point is in the listed state; otherwise the site is left unplaced. Returns the corrected table."""
+    import geopandas as gpd
+    st = gpd.read_file(f"zip://{os.path.join(RAW, 'cb_2024_us_state_500k.zip')}")[["STUSPS", "geometry"]].to_crs(4326)
+    s = s.copy()
+    has = s.lat.notna() & s.state.notna()
+    pts = gpd.GeoDataFrame(s[has][["lat", "lon"]], geometry=gpd.points_from_xy(s[has].lon, s[has].lat), crs=4326)
+    j = gpd.sjoin(pts, st, how="left", predicate="within")
+    j = j[~j.index.duplicated()]
+    miss = j.STUSPS.isna()
+    if miss.any():   # points just offshore or on a border line: nearest state within 5 km
+        nn = gpd.sjoin_nearest(pts[miss].to_crs(5070), st.to_crs(5070), how="left", max_distance=5000)
+        j.loc[miss, "STUSPS"] = nn.STUSPS[~nn.index.duplicated()]
+    s["point_state"] = j.STUSPS.reindex(s.index)
+    bad = has & (s.point_state != s.state)
+    zpt = zp.reindex(s.zip.fillna("").str[:5])
+    zlat, zlon = zpt.zlat.values, zpt.zlon.values
+    zst = pd.Series(index=s.index, dtype=object)
+    if bad.any():
+        zz = s[bad].copy()
+        zz["zlat"], zz["zlon"] = zlat[bad.values], zlon[bad.values]
+        okz = zz.zlat.notna()
+        if okz.any():
+            zp_ = gpd.GeoDataFrame(zz[okz], geometry=gpd.points_from_xy(zz[okz].zlon, zz[okz].zlat), crs=4326)
+            jz = gpd.sjoin(zp_, st, how="left", predicate="within")
+            zst.loc[jz.index] = jz.STUSPS[~jz.index.duplicated()]
+    fix = bad & (zst == s.state)
+    s["state_check"] = np.where(bad, np.where(fix, "moved_to_zip_point_after_state_mismatch",
+                                              "unplaced_state_mismatch"), "ok")
+    s.loc[fix, "lat"] = zlat[fix.values]
+    s.loc[fix, "lon"] = zlon[fix.values]
+    s.loc[fix, "geo_method"] = "zip_interior_point_after_state_mismatch"
+    drop = bad & ~fix
+    s.loc[drop, ["lat", "lon"]] = np.nan
+    s.loc[drop, "geo_method"] = "unplaced_state_mismatch"
+    return s.drop(columns="point_state")
 
 
 def main():
@@ -213,6 +272,11 @@ def main():
                      "detail": f"{r.health_center_name}; {r.setting}"})
 
     s = pd.DataFrame(rows)
+    s = state_check(s, zp)
+    sc = s[s.state_check != "ok"]
+    print(f"state check: {len(sc)} site rows moved or unplaced")
+    sc[["service_type", "site_id", "name", "city", "state", "zip", "geo_method"]].to_csv(
+        os.path.join(PROC, "qa_site_state_mismatches.csv"), index=False)
     s.to_csv(os.path.join(PROC, "sites.csv"), index=False)
     summ = s.groupby(["service_type", "geo_method"]).size().unstack(fill_value=0)
     print(summ)

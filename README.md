@@ -1,6 +1,6 @@
 # Rural and Frontier Perinatal Care Access Layer
 
-**Status:** DRAFT v0.1.0, built 2026-11-13, not yet verified by the author. Do not cite. | **DOI:** [DOI pending] | **Maintainer:** Munachimso A. Emesobum, ORCID [0009-0002-7506-2153](https://orcid.org/0009-0002-7506-2153) | **License:** data and documents CC BY 4.0, code MIT; road-derived values © OpenStreetMap contributors (ODbL)
+**Status:** v0.1.0, verified by the author 2026-11-13 (review fixes applied the same day; see docs/CHANGELOG.md) | **DOI:** [DOI pending] | **Maintainer:** Munachimso A. Emesobum, ORCID [0009-0002-7506-2153](https://orcid.org/0009-0002-7506-2153) | **License:** data and documents CC BY 4.0, code MIT; road-derived values © OpenStreetMap contributors (ODbL)
 
 **In plain terms:** For every U.S. county, this table shows how many women aged 15 to 44 live more than a 30-minute or 60-minute drive from a hospital that delivers babies, from a substance use treatment program that serves pregnant or postpartum women, and from a community health center. Rural and frontier counties are reported separately. Planners can use it to see which counties are cut off from perinatal care even when a facility exists somewhere in the region.
 
@@ -67,9 +67,9 @@ The road data download takes about 30 to 60 minutes. The build and routing take 
 | [CMS Maternal Health - Hospital](https://data.cms.gov/provider-data/dataset/nrdb-3fcy), [Hospital General Information](https://data.cms.gov/provider-data/dataset/xubh-q36u), [Birthing-Friendly Hospitals Geocoded](https://data.cms.gov/provider-data/dataset/hbf-map) | October 2026 refresh | U.S. public domain | 2026-11-13 |
 | [Census Geocoder](https://geocoding.geo.census.gov/) (hospital addresses) | Public_AR_Current | U.S. public domain | 2026-11-13 |
 | [Project 1 v0.1.0](https://doi.org/10.5281/zenodo.24025395): FindTreatment.gov listings, HRSA health center sites, NPPES obstetric clinicians by ZIP, USDA RUCC 2023 | November 2026 | CC BY 4.0 | 2026-11-13 |
-| [Census 2024 Gazetteer ZCTAs; cartographic boundaries](https://www.census.gov/geographies/reference-files.html) | 2024 | U.S. public domain | 2026-11-13 |
+| [Census 2024 Gazetteer ZCTAs and places; cartographic boundaries](https://www.census.gov/geographies/reference-files.html) | 2024 | U.S. public domain | 2026-11-13 |
 
-## Headline numbers (draft, from `report/stats.json`)
+## Headline numbers (from `report/stats.json`)
 
 Nationally, 91.0% of women aged 15 to 44 live within 30 minutes of a delivering hospital, and 99.0% live within 60 minutes. More than 60 minutes from care:
 
@@ -77,9 +77,11 @@ Nationally, 91.0% of women aged 15 to 44 live within 30 minutes of a delivering 
 |---|---|---|---|
 | Metro women | 0.2% | 0.4% | 0.1% |
 | Rural women | 5.0% | 13.3% | 4.1% |
-| Frontier women | 34.7% | 53.4% | 33.6% |
+| Frontier women | 34.1% | 53.4% | 33.9% |
 
-In 556 rural or frontier counties, most women live more than an hour from a perinatal treatment facility. In 107 counties, most women live more than an hour from all three care types. In the check against the OSRM routing engine, the median time ratio was 0.99, and 99.1% of trips fell on the same side of the 60-minute cutoff.
+In 556 rural or frontier counties, most women live more than an hour from a perinatal treatment facility. In 108 counties, most women live more than an hour from all three care types. These 108 are all rural or frontier, and most are very small: 101 are frontier, and 67 have fewer than 500 women aged 15 to 44.
+
+In a check against OSRM, an open-source routing engine running on the same OpenStreetMap roads, the median time ratio was 0.99, and 99.1% of trips fell on the same side of the 60-minute cutoff. This confirms the routing computation, not the road map itself.
 
 ## Limitations
 
@@ -88,7 +90,7 @@ See [docs/LIMITATIONS.md](docs/LIMITATIONS.md) before using or citing anything h
 - The nearest site is not always the one a woman uses.
 - CMS under-lists rural delivering hospitals, so a range is given.
 - The perinatal treatment flag covers substance use programs only.
-- Places with no road out are reported as unreachable.
+- Places with no road route within 600 minutes, including islands without a car connection and Southeast Alaska ferry towns, are reported as unreachable.
 
 ## Citation and authorship
 

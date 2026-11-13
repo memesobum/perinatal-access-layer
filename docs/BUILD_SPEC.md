@@ -16,7 +16,7 @@ SOURCES:        OpenStreetMap US regional extracts (openstreetmap.fr, data of 20
                 Census Geocoder batch service (hospital addresses)
                 Project 1 v0.1.0, DOI 10.5281/zenodo.24025395 (FindTreatment.gov listings, HRSA health center
                   sites, NPPES obstetric clinicians by ZIP, RUCC 2023 rural and frontier flags; CC BY 4.0)
-                Census 2024 Gazetteer ZCTAs; 2024 cartographic county and state boundaries
+                Census 2024 Gazetteer ZCTAs and places; 2024 cartographic county and state boundaries
 UNIT:           County (3,144; Census Vintage 2024 geography, 50 states + DC). Block-group detail file also released.
 MEASURES:       Drive time (free-flow minutes) from each block group center to the nearest site of each type,
                 by Dijkstra shortest path on the national OSM road graph (OSRM car-profile speeds; one-way

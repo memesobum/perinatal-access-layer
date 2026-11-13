@@ -20,15 +20,25 @@ Service roads (driveways, parking aisles) and tracks are left out. Homes and sit
 
 Where a road has a posted limit (`maxspeed`), the speed is 0.8 times the limit, as OSRM does. U.S. limits without a unit are read as miles per hour. That speed is capped at 1.5 times the class default.
 
-Ferries use their tagged duration where present. Otherwise they use 5 km/h, the OSRM default, which deliberately makes long ferry crossings slow. One-way streets and roundabouts are respected.
+Ferries use their tagged duration where present. Otherwise they use 5 km/h, the OSRM default, which deliberately makes long ferry crossings slow. Southeast Alaska's state ferries are in the data, but at that speed a crossing such as Haines to Juneau takes far longer than the 600-minute search limit (section 5). These towns therefore show as having no route within 600 minutes, not as having no ferry. One-way streets and roundabouts are respected.
 
 **What is not modeled.** Traffic, time of day, weather, seasonal road closures, turn penalties, and traffic signals are not modeled. The times are therefore free-flow times. In the check against OSRM (section 6), they ran about 5% faster than OSRM in metro areas, where OSRM adds turn and signal penalties. Rural and frontier times showed almost no difference.
 
 **Graph.** Each road is split into links at every junction, at its ends, and every 1 km along its length. Splitting every 1 km means a home beside a long rural highway joins the highway near the home, not at the next junction miles away.
 
-Links carry minutes in each allowed direction. Where the regional files overlap at their borders, duplicate links are merged, keeping the fastest. The national network has about 24 million road points and 55 million one-way links. Exact counts are in `data/processed/qa_report.txt`.
+Links carry minutes in each allowed direction. Where the regional files overlap at their borders, duplicate links are merged, keeping the fastest. The national network has about 24 million road points and 56 million one-way links. Mapped road lines total about 8.0 million km, plus about 15,000 km of ferry routes. That is more than the 6.7 million km of U.S. public roads, because each direction of a divided highway is a separate line and private roads are included. Exact counts are in `data/processed/qa_report.txt`.
 
 ## 3. Where people are
+
+**Hospital locations.** Hospitals are placed in this order of preference:
+
+1. Census Geocoder exact address match.
+2. CMS's own geocode (birthing-friendly file).
+3. Census non-exact match.
+4. The Census place (town) interior point for the listed city.
+5. The ZIP code's interior point.
+
+The town step matters in Alaska. There, ZIP areas are huge, and Nome, Kotzebue, and Dillingham hospitals list addresses the geocoder cannot match.
 
 **Origins.** The starting points are the Census Bureau's 2020 population-weighted block group centers (`CenPop2020_Mean_BG`). This is the same origin used by published drive-time studies, such as Rayburn et al. (2012) and the Illinois Department of Public Health study in *Preventing Chronic Disease* (2026).
 
@@ -53,6 +63,14 @@ The straight-line distance to that point is converted to minutes as if driven at
 
 This rule keeps neighborhoods from joining small closed-off fragments that lead nowhere. It still lets road-isolated towns reach their own clinic or hospital.
 
+**Islands and shores with no car connection.** A neighborhood is treated as having no road route out when all three of these hold:
+
+1. Its nearest main-network road is more than 2 km away.
+2. Either the nearest road of any kind is a closed-off piece (three or more times closer), or there is no closer road at all.
+3. The straight line to the main network crosses open water, judged against the Census Bureau's shoreline-clipped state boundaries with a 100 m allowance for bridges.
+
+Without this rule, the 25 km connector would attach an island neighborhood to the mainland across the water. Examples are Kalaupapa (Kalawao County, Hawaii), Bald Head Island (North Carolina), Mackinac Island, the Maine islands, Fire Island, and Point Roberts, Washington, whose only road runs through Canada. On land, a closed-off piece usually means the map is missing an unpaved or service road. So a mainland neighborhood keeps its longer connector instead of being marked unreachable.
+
 ## 5. Shortest paths
 
 For each care type, one shortest-path search (Dijkstra's method, from SciPy) runs on the reversed network from all sites at once. Each site enters through its own entry point, which carries the site's connector minutes. The search therefore gives, for every road point, the time to drive from that point to the nearest site, and which site that is.
@@ -63,8 +81,9 @@ This calculation produces the same answer a routing engine such as OSRM would gi
 
 ## 6. Checks
 
-- **Against OSRM.** 450 random trips (50 for each combination of delivering hospital, perinatal treatment facility, or health center with metro, rural, or frontier county) were sent to the public OSRM routing server (router.project-osrm.org), which runs the OSRM car profile on OSM. Agreement statistics are in `data/processed/validation_summary.json` and the QA report. Figure 6 plots every pair.
-- **Against published studies.** The national share of women within 30 and 60 minutes of a delivering hospital is set beside Rayburn et al. (2012) and Fontenot et al. (2024) in `report/stats.json` and the paper. Those studies used different hospital lists, years, and commercial road networks, so they are reference points, not exact targets.
+- **Against OSRM.** 450 random trips (50 for each combination of delivering hospital, perinatal treatment facility, or health center with metro, rural, or frontier county) were sent to the public OSRM routing server (router.project-osrm.org), which runs the OSRM car profile on OSM. Agreement statistics are in `data/processed/validation_summary.json` and the QA report. Figure 6 plots every pair. OSRM uses the same OpenStreetMap roads and similar speeds, and it was asked to route to the site this project picked. So this check confirms the routing computation, not the road map itself or the choice of nearest site.
+- **Against published studies.** The national share of women within 30 and 60 minutes of a delivering hospital is set beside Rayburn et al. (2012) and Fontenot et al. (2024) in `report/stats.json` and the paper. Those studies used different hospital lists, years, population groups (Rayburn: women 18 to 39, 2007 hospitals, 2010 population), and commercial road networks. They are reference points, not exact targets.
+- **State check on site locations.** A care site whose coordinates fall in a different state from its address (for example, a program in Arlington, Oregon placed in Arlington, Texas) is moved to its ZIP code's center when that point is in the right state. Otherwise it is left unplaced. Every case is listed in `data/processed/qa_site_state_mismatches.csv`.
 - **Logic checks.** Adding hospitals (upper-bound list) never lengthens a drive. No time is negative. No county has more women beyond 60 minutes than beyond 30. County totals add up to the block group totals.
 
 ## 7. County summaries

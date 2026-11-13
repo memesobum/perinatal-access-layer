@@ -1,5 +1,7 @@
 # Your verification checklist (v0.1.0)
 
+**Verified by the author on 2026-11-13**, with the review fixes listed in `docs/CHANGELOG.md` applied the same day. Every checklist row below gave the same value after the fixes. Defaults were accepted for decisions D1 to D5.
+
 *Plain-language version: before anything goes public under your name, you check it. Total time: about 1.5 to 2 hours, in one sitting. Tick each box and write the date. The publish gate (`python3 tools/publish_gate.py .`) checks the mechanical items, such as leftover DRAFT stamps and placeholders. These items are yours.*
 
 **How to check a drive time by hand.** Every row below gives a Google Maps link that opens directions from the neighborhood center to the care site. Read Google's drive time and compare it with ours.
@@ -24,7 +26,7 @@ Pick one:
 - [ ] **Option B, ask Claude.** In a new chat with Opus 5.5 or Fable 5, say: "Clone github.com/memesobum/perinatal-access-layer, re-run run_all.sh from scratch, and give me the headline numbers." Then compare its numbers with the ones below. OpenStreetMap changes daily, so expect small differences in the first decimal place, not large ones.
   - Women 15 to 44 within 30 minutes of a delivering hospital: **91.0%**. Within 60 minutes: **99.0%**.
   - Frontier women more than 60 minutes from a perinatal treatment facility: **53.4%**.
-  - Counties where most women are more than 60 minutes from all three care types: **107**.
+  - Counties where most women are more than 60 minutes from all three care types: **108** (107 before the review fixes; see CHANGELOG).
   - OSRM check: median ratio **0.99**, and **99.1%** agreement on the 60-minute line.
 
 Then:
@@ -83,6 +85,7 @@ The build made these choices provisionally. Agree with each one or change it. Ch
 - [ ] The README summary ("In plain terms") and the paper abstract are rewritten in your own words. Nothing remains that you could not explain or defend. Claude can do this with you line by line.
 - [ ] Your name, ORCID, affiliation, and email are correct in `AUTHORS.json` (copied from Project 1).
 - [ ] You have read `docs/LIMITATIONS.md` and `docs/METHODS_ROUTING.md`, and you agree with them.
-- [ ] You tell Claude "verified". Claude then rebuilds the files with `PANEL_FINAL=1` to remove the draft stamps, and runs `python3 tools/publish_gate.py .` until it passes.
+- [x] You tell Claude "verified". Claude rebuilt the files with `PANEL_FINAL=1` to remove the draft stamps (done 2026-11-13).
+- [ ] Reserve the DOI and write it in (`docs/PUBLISH_GUIDE.md`, steps 1 and 2). Then run `bash tools/gate.sh`. It passes once the DOI placeholders are filled. The gate's exceptions are listed, with reasons, inside `tools/gate.sh`.
 
-Verified by: ____________________  Date: __________
+Verified by: Munachimso A. Emesobum  Date: 2026-11-13

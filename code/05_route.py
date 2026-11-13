@@ -38,13 +38,16 @@ from config import (CONNECTOR_DETOUR, CONNECTOR_KMH, MAX_SNAP_KM, PROC, ROUTE_LI
 MIN_ALWAYS = 50000      # a strongly connected piece this big always counts as a main network
 SITE_TIERS = [(MIN_ALWAYS, 2.0), (1000, 2.0), (50, MAX_SNAP_KM)]   # (minimum piece size, max km); None = MAX_SNAP_KM
 MIN_COMPONENT = 50
+ISOLATED_KM = 2.0       # see the separate-road-network rule in main()
+ISOLATED_RATIO = 3.0
 R_KM = 6371.0088
 MIN_ARC = 1e-4   # minutes; keeps zero-length links as real links
 
 
 def unit(lat, lon):
     la, lo = np.radians(lat), np.radians(lon)
-    return np.column_stack([np.cos(la) * np.cos(lo), np.cos(la) * np.sin(lo), np.sin(la)])
+    x, y, z = np.cos(la) * np.cos(lo), np.cos(la) * np.sin(lo), np.sin(la)
+    return np.column_stack((x, y, z))
 
 
 def load_vertices():
@@ -84,10 +87,36 @@ def build_graph(vid):
     return indptr, dst.astype(np.int32), w
 
 
+def road_km_deduplicated():
+    """Length of mapped road lines with links shared by overlapping regional files counted once.
+    Divided highways are mapped as two one-way lines, so they count twice; private roads are included."""
+    parts = []
+    for f in sorted(glob.glob(os.path.join(WORK, "roads_*_edges.parquet"))):
+        e = pd.read_parquet(f, columns=["u", "v", "len_m", "cls"])
+        parts.append(pd.DataFrame({"a": np.minimum(e.u.values, e.v.values), "b": np.maximum(e.u.values, e.v.values),
+                                   "len": e.len_m.values, "ferry": (e.cls == "ferry").values}))
+    d = pd.concat(parts).drop_duplicates(["a", "b"])
+    return {"km_road": float(d.loc[~d.ferry, "len"].sum() / 1000), "km_ferry": float(d.loc[d.ferry, "len"].sum() / 1000)}
+
+
 def snap(tree, cand_idx, lat, lon):
     d, k = tree.query(unit(lat, lon), k=1)
     km = 2 * R_KM * np.arcsin(np.clip(d / 2, 0, 1))
     return cand_idx[k], km
+
+
+def crosses_water(lat0, lon0, lat1, lon1, mask):
+    """True where the straight line between the two points leaves land (Census 2024 shoreline-clipped states)."""
+    import geopandas as gpd
+    from shapely.geometry import LineString
+    from config import RAW
+    land = gpd.read_file(f"zip://{os.path.join(RAW, 'cb_2024_us_state_500k.zip')}").to_crs(5070).union_all()
+    land = land.buffer(100)   # 100 m tolerance for bridges and generalized shorelines
+    out = np.zeros(len(lat0), bool)
+    idx = np.flatnonzero(mask)
+    lines = gpd.GeoSeries([LineString([(lon0[i], lat0[i]), (lon1[i], lat1[i])]) for i in idx], crs=4326).to_crs(5070)
+    out[idx] = ~lines.within(land).values
+    return out
 
 
 def connector_min(km):
@@ -96,6 +125,9 @@ def connector_min(km):
 
 def main():
     t0 = time.time()
+    km = road_km_deduplicated()   # computed first, before the graph is in memory
+    import gc
+    gc.collect()
     v = load_vertices()
     vid = v.id.values
     n = len(vid)
@@ -137,7 +169,28 @@ def main():
 
     o = pd.read_csv(os.path.join(PROC, "origins_blockgroups.csv"), dtype={"geoid": str, "fips": str})
     o["snap_vertex"], o["snap_km"] = snap(tree, cand, o.lat.values, o.lon.values)
-    o["connected"] = o.snap_km <= MAX_SNAP_KM
+    # A neighborhood on an island with no car connection must not be attached across the water to a main
+    # network. Rule: the nearest main-network road is more than ISOLATED_KM away, AND either the nearest
+    # road of any kind is a closed-off piece (ISOLATED_RATIO times closer) or there is no closer road at
+    # all, AND (below) the straight line to the main network crosses open water.
+    all_snap = np.flatnonzero(snappable)
+    tree_all = cKDTree(unit(v.lat.values[all_snap], v.lon.values[all_snap]))
+    nv_any, km_any = snap(tree_all, all_snap, o.lat.values, o.lon.values)
+    del tree_all
+    isolated = (o.snap_km.values > ISOLATED_KM) & (
+        (~main[nv_any] & (o.snap_km.values > ISOLATED_RATIO * km_any))   # nearest road is a closed-off piece
+        | (km_any >= o.snap_km.values - 1e-9))                          # or no road at all on its side
+    # ...and only when the straight line to the main network crosses open water (coast, bay, lake), judged
+    # against the shoreline-clipped Census state boundaries. On land, a closed-off piece usually means the
+    # map is missing an unpaved or service road, so the neighborhood keeps its longer connector instead.
+    if isolated.any():
+        isolated = isolated & crosses_water(o.lat.values, o.lon.values, v.lat.values[o.snap_vertex.values],
+                                            v.lon.values[o.snap_vertex.values], isolated)
+    o["origin_status"] = np.where(o.snap_km > MAX_SNAP_KM, "no_road_within_25km",
+                                  np.where(isolated, "separate_road_network", "connected"))
+    o["connected"] = o.origin_status == "connected"
+    print(f"origins on separate road networks: {isolated.sum()} block groups, "
+          f"{o.loc[isolated, 'women_15_44'].sum():,.0f} women")
     o["origin_conn_min"] = connector_min(o.snap_km)
 
     s["snap_vertex"], s["snap_km"] = snap(tree, cand, s.lat.values, s.lon.values)
@@ -151,9 +204,12 @@ def main():
              "main_networks": int(main_comp.sum()), "share_vertices_in_main": float(main.mean()),
              "bg_not_connected": int((~o.connected).sum()),
              "women_not_connected": float(o.loc[~o.connected, "women_15_44"].sum()),
+             "bg_separate_network": int((o.origin_status == "separate_road_network").sum()),
+             "women_separate_network": float(o.loc[o.origin_status == "separate_road_network", "women_15_44"].sum()),
              "sites_not_routed": s[~s.routed].groupby("service_type").size().to_dict(),
-             "km_road": float(sum(json.load(open(f))["km_road"]
-                                  for f in glob.glob(os.path.join(WORK, "roads_*_stats.json"))))}
+             "km_road_sum_of_regional_files": float(sum(json.load(open(f))["km_road"]
+                                                    for f in glob.glob(os.path.join(WORK, "roads_*_stats.json")))),
+             **km}
 
     for t in SERVICE_TYPES:
         st = s[(s.service_type == t) & s.routed].reset_index(drop=True)

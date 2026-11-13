@@ -18,12 +18,23 @@
 
 8. **Neighborhood centers stand in for every home.** Each block group's women are placed at its population center. Women at the far edge of a large rural block group may live much farther from care. In frontier block groups that cover hundreds of square miles, the true spread of drive times is wider than shown.
 
-9. **Some places have no road to care.** Women in Alaska villages, on some islands (for example Lanai and the San Juan Islands), and in other off-road places cannot reach some care types by road. They are counted as beyond every threshold and reported separately (`<t>_women_unreachable`). For these places, air and boat travel is the real question, and drive time does not measure it.
+9. **Some places have no road route to care.** Some women have no road route to a care type within the 600-minute search limit. They are counted as beyond every threshold and reported separately (`<t>_women_unreachable`). Three groups fall here:
+   - Alaska villages.
+   - Islands without a car connection, such as Kalaupapa, Bald Head Island, Mackinac Island, and the Maine islands. Point Roberts, Washington is included too, because its only road runs through Canada and Canadian roads are not in this release.
+   - Ferry-dependent towns in Southeast Alaska, such as Haines, Skagway, and Hoonah-Angoon. Their state ferries are in the road data, but crossings without a tagged duration use the OSRM default of 5 km/h, which pushes them past the 600-minute limit.
 
-10. **Site locations can be off.** Hospital addresses were geocoded by the Census Bureau, with CMS's own coordinates used for non-exact matches. For 55 hospitals, the two sources disagree by more than 2 km (listed in `qa_hospital_geocode_differences.csv`). FindTreatment.gov and HRSA coordinates are taken as published. Listings without coordinates were placed at their ZIP center.
+   For all these places, air, boat, and ferry travel is the real question, and drive time does not measure it. The island rule (METHODS_ROUTING.md, section 4) judges water crossings against generalized Census shorelines. A few shoreline neighborhoods may be misjudged either way.
+
+10. **Site locations can be off.**
+   - Hospital addresses were geocoded by the Census Bureau, with CMS's own coordinates used for non-exact matches. For 55 hospitals, the two sources disagree by more than 2 km (listed in `qa_hospital_geocode_differences.csv`).
+   - About 125 hospitals, mostly small rural and tribal hospitals with PO-box-style addresses, could not be matched at all. They are placed at their town's center (Census place point), which is usually within a few km of the hospital.
+   - FindTreatment.gov and HRSA coordinates are taken as published. The exception is coordinates that fall in a different state from the listed address: those were moved to the ZIP center or left unplaced (`qa_site_state_mismatches.csv`). Errors within the right state are not caught.
+   - Listings without coordinates were placed at their ZIP center.
 
 11. **Data years differ.** Roads: November 2026. Hospitals: CMS October 2026 refresh, with reporting periods in 2024 and 2025. Treatment facilities, health centers, and clinicians: November 2026 (from Project 1). Women 15 to 44: ACS 2020-2024. Neighborhood centers: 2020 Census. Rural codes: 2023.
 
 12. **Small counties are unstable.** Where few women live (`flag_small_women`), one block group can move the county share from 0% to 100%. Loving County, Texas has no women aged 15 to 44 in the ACS, so its shares are blank.
 
-13. **Territories are excluded** in v0.1, as in Project 1.
+13. **The OSRM check tests the routing, not the map.** OSRM runs on the same OpenStreetMap roads with similar speeds, and it was asked to route to the site this project selected. Close agreement shows the shortest-path computation is right. It does not show that the road map is complete, or that the chosen site is the one a woman would use.
+
+14. **Territories are excluded** in v0.1, as in Project 1.
