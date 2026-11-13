@@ -1,0 +1,496 @@
+\documentclass{article}
+\usepackage{amsmath}\usepackage{graphicx}\usepackage{booktabs}
+\begin{document}
+\begin{center}
+\textbf{How Far to Perinatal Care? Open Drive-Time Measures to Delivering Hospitals, Perinatal  Substance Use Treatment, and Health Centers for Every U.S. County, with Rural and Frontier Estimates}
+\end{center}
+
+\begin{center}
+Munachimso A. Emesobum$^{1,*}$
+\end{center}
+
+$^{1}$ Independent Researcher, Nevada, USA
+
+$^{*}$ Correspondence: emesobumm@gmail.com; ORCID: https://orcid.org/0009-0002-7506-2153
+
+\textbf{Abstract:} Counting facilities inside county lines does not show how far a pregnant or postpartum woman must travel for care. We built the Rural and Frontier Perinatal Care Access Layer, an open, versioned dataset that measures, for all 3,144\ counties of the 50 states and the District of Columbia, the share of women aged 15--44 who live more than 30 and more than 60 minutes' drive from three types of care: a hospital providing inpatient labor and delivery care (2,424\ hospitals confirmed in Centers for Medicare \& Medicaid Services, CMS, maternal health data), a substance use disorder (SUD) treatment facility with a program for pregnant or postpartum women (4,600\ FindTreatment.gov listings), and a federally funded health center site (11,769). Drive times run from 239,741\ population-weighted Census block group centers over a national OpenStreetMap road graph of 24.4\ million points, using the speed rules of the Open Source Routing Machine (OSRM) car profile and an exact multi-source shortest-path search, and are weighted by the 66.0\ million women aged 15--44 counted in the 2020--2024 American Community Survey. Nationally, 91.0\% of women live within 30 minutes of a delivering hospital and 99.0\% within 60 minutes, but the median frontier woman drives 43.3\ minutes and 34.1\% of frontier women live more than an hour away. Perinatal SUD treatment is the least accessible of the three: 13.3\% of rural and 53.4\% of frontier women live more than an hour from it, and in 556\ rural or frontier counties most women do. 108\ counties, 101\ of them frontier, have most women more than an hour from all three care types. Because CMS does not report delivery status for many critical access hospitals, we also bound the hospital measure from above; the upper bound roughly halves the frontier share beyond an hour (15.8\%). A check of 450\ randomly drawn trips against the public OSRM server on the same roads gave a median time ratio of 0.992\ and 99.1\% agreement on the 60-minute cutoff, and the national mean drive to a delivering hospital (14.0\ minutes) matches a published estimate from a commercial network (14.1\ minutes). The data, code, routing method notes, and quality report are openly released (doi:10.5281/zenodo.24206837).
+
+\textbf{Keywords:} perinatal behavioral health, travel time, geographic access, obstetric care, substance use treatment, rural and frontier health, OpenStreetMap, open data
+
+\section*{I. Introduction}
+
+Mental health conditions, a category that in U.S. maternal mortality review includes deaths by suicide, deaths from overdose related to substance use disorder, and other deaths a review committee judges related to a mental health condition, were the most frequent underlying cause of pregnancy-related death identified by maternal mortality review committees in 38 states for 2020~[1]. Perinatal mood and anxiety disorders are common among the living as well: 13.2\% of respondents to the 2018 Pregnancy Risk Assessment Monitoring System reported postpartum depressive symptoms~[2], and untreated perinatal mood and anxiety disorders were estimated to cost \$14 billion for the 2017 U.S.\ birth cohort through five years postpartum~[3]. Clinical guidance now calls for screening during pregnancy and postpartum with systems in place for timely assessment, treatment, and follow-up~[4].
+
+Screening is only as useful as the care a positive screen can be referred to, and referral is only as useful as the patient's ability to get there. For pregnant and postpartum women with substance use disorders the barriers are documented: treatment programs designed for this population are a minority of programs and differ from others in the services they offer~[5], and pregnant callers seeking opioid use disorder treatment were less likely than non-pregnant callers to obtain an appointment~[6]. Behavioral health clinicians are scarcer per capita outside metropolitan areas~[7]. Rural counties have also lost hospital-based obstetric services; more than half of rural counties had none by 2014~[8], and losses were associated with increases in out-of-hospital and preterm births~[9].
+
+Distance is the dimension of access that county counts cannot show. A county with no program may be 20 minutes from one across the county line; a large frontier county with a program in its county seat may leave most of its women two hours away. Geographic access is therefore usually measured as travel time or distance on a road network~[10]. For obstetric care this has been done nationally several times. Rayburn and colleagues estimated that 87.5\% of women aged 18--39 lived within 30 minutes and 97.3\% within 60 minutes of one of 2,606 hospitals with perinatal services in the 2007 American Hospital Association survey~[11]. Fontenot and colleagues reported a mean drive of 14.1 minutes from census tracts to the nearest obstetric hospital~[12], and Ranchoff and colleagues showed that the share of reproductive-aged women within 30 minutes of obstetric care fell sharply between 2010 and 2021 in counties that lost all hospital-based obstetric services, especially in rural areas~[13]. Globally, open road data have been used to map travel time to cities and to health facilities~[14, 15].
+
+Three gaps remain. First, the U.S.\ studies used commercial road networks and proprietary hospital lists, and their county results are not released in reusable form. Second, we know of no national measure of travel time to SUD treatment programs for pregnant and postpartum women, the service most directly tied to the behavioral health deaths that maternal mortality reviews identify. Third, rural and frontier counties, where distances matter most, are usually reported together with other nonmetropolitan counties, although frontier counties (fewer than six people per square mile) face distances of a different order.
+
+In earlier work the author mapped obstetric providers, federally qualified health centers, certified community behavioral health clinics, women's set-aside programs, and home visiting programs across Nevada's 17 counties for the Larson Institute, and found seven counties with no OB/GYN provider and more than half without dedicated perinatal behavioral health services. A companion open dataset, the U.S.\ County Perinatal Behavioral Health Need and Capacity Panel (``Project~1'')~[16], counts need and services within each county. This paper adds the travel dimension. Our contributions are:
+\begin{enumerate}
+\item an open county table, for all 3,144\ counties, of drive-time access for women aged 15--44 to delivering hospitals, perinatal SUD treatment, and health centers, with three supplementary care types and an upper-bound hospital list that brackets CMS's under-reporting;
+\item a transparent national routing method on open OpenStreetMap roads that runs on an ordinary computer and reproduces a standard routing engine's results;
+\item checks of the routing against the OSRM engine, of the national results against published estimates, and of internal logic;
+\item a description of the rural and frontier counties cut off from perinatal care, including counties where facility counts and drive times disagree.
+\end{enumerate}
+Section~II describes the data, Section~III the routing and summary methods, Section~IV the results, Section~V their interpretation and limitations, and Section~VI concludes.
+
+\section*{II. Data}
+
+Table~I lists every source. All are free to use; road-derived values carry the OpenStreetMap attribution required by the Open Database License.
+
+\begin{table}
+\centering\caption{\textbf{Table I.} Data sources, vintages, and their role in the study. All sources are openly licensed or U.S.\ public domain.}
+\begin{tabular}{@{}p{0.30\textwidth}p{0.17\textwidth}p{0.42\textwidth}@{}}
+\toprule
+Source & Vintage & Role in this study \\
+\midrule
+OpenStreetMap U.S. regional extracts (openstreetmap.fr) & 13 Nov 2026 & Road network, 48 contiguous states and DC \\
+Overture Maps transportation layer (OSM-derived) & 2026-10-21.0 & Road network, Alaska and Hawaii \\
+Census centers of population, block groups & 2020 & Travel origins (population-weighted centers) \\
+ACS 5-year summary file, table B01001 & 2020--2024 & Women aged 15--44 per block group (weights) \\
+CMS Maternal Health -- Hospital (SM-7, PC-02, PC-07) & Oct 2026 refresh & Hospital labor and delivery status \\
+CMS Hospital General Information; Birthing-Friendly geocodes & Oct 2026 refresh & Hospital type, address, coordinates \\
+Census Geocoder (Public\_AR\_Current) & accessed 13 Nov 2026 & Hospital address geocoding \\
+Project 1 v0.1.0~[16]: FindTreatment.gov, HRSA sites, NPPES, RUCC & Nov 2026 & Treatment facilities, health centers, clinicians, rural and frontier flags \\
+Census Gazetteer (ZCTAs, places); cartographic boundaries & 2024 & Fallback locations, state checks, shorelines, maps \\
+Public OSRM server (router.project-osrm.org) & queried 13 Nov 2026 & Routing check on 450 trips \\
+\bottomrule
+\end{tabular}
+
+\end{table}
+
+\subsection*{A. Unit of analysis and population}
+The unit is the county, in Census Vintage 2024 geography (Connecticut as nine planning regions), identical to Project~1 so that the two releases join on the five-digit FIPS code. Puerto Rico and the island areas are out of scope. The population of interest is women aged 15--44, the conventional reproductive-age denominator. For each Census block group we sum the nine female age cells from 15--17 through 40--44 of the 2020--2024 American Community Survey (ACS) 5-year table B01001, read from the Census Bureau's table-based summary file; the national total is 65,970,543\ women in 239,741\ block groups, of which 3,759\ contain no women in this age group.
+
+\subsection*{B. Travel origins}
+Each block group is represented by its 2020 Census population-weighted mean center~[17], the point at which the block group's residents are centered. This origin is standard in drive-time studies~[11] and places rural block groups at their towns rather than at the geometric middle of large, sparsely settled areas. Because the ACS now codes Connecticut by planning region while the 2020 center file uses the former counties, each Connecticut center was placed in its planning region by point-in-polygon before matching. The ACS and center files matched for all but 39 block groups in Suffolk County, New York, where a tract recode left center points without ACS rows; no ACS women were lost.
+
+\subsection*{C. Care sites}
+\textit{1. Delivering hospitals.} 
+CMS publishes, for hospitals in its quality reporting programs, the maternal morbidity structural measure SM-7, which a hospital answers ``Not Applicable'' when it provides no inpatient labor and delivery care, and the perinatal care measures PC-02 (cesarean birth) and PC-07 (severe obstetric complications). Of 4,595\ hospitals in the 50 states and DC in the October 2026 file, 2,289\ answered SM-7 Yes or No, 135\ more reported perinatal care measures with a nonzero sample, 1,334\ answered that they provide no labor and delivery care, and 837\ had no usable answer. We define the headline list (\texttt{ob\_hosp}) as the 2,424\ general acute care and critical access hospitals with confirmed labor and delivery care. Many critical access hospitals are not required to report, so an upper-bound list (\texttt{ob\_hosp\_upper}) adds the 663\ acute care (64) and critical access (599) hospitals whose status is not reported, for 3,087\ hospitals. Rural Emergency Hospitals (no inpatient beds), children's hospitals, and military hospitals are not added. The two lists bracket the true set from below and above.
+
+Hospital addresses were geocoded with the Census Geocoder. In order of preference we used an exact address match (2,115\ hospitals on the upper-bound list), CMS's own coordinates from its birthing-friendly file (655), a non-exact Census match (191), the Census place point for the listed town when no address could be matched (125; mostly small rural and tribal hospitals with post-office-box addresses), and the ZIP code's interior point (1). For 55\ hospitals the Census and CMS coordinates differ by more than 2~km; these are listed in the release for checking.
+
+\textit{2. Perinatal SUD treatment and other behavioral health sites.} 
+Treatment facility listings come from Project~1, which retrieved all SAMHSA FindTreatment.gov listings in November 2026 and coded their service fields~[16]. The headline measure (\texttt{ppw\_bh}) uses the 4,600\ listings with a program for ``Pregnant/postpartum women.'' FindTreatment.gov records this program only for substance use listings, so no open national list identifies mental health programs for perinatal women; as a supplement we report travel to any mental health facility (\texttt{mh\_any}, 12,637\ listings), which is not perinatal-specific.
+
+\textit{3. Health centers and obstetric clinicians.} 
+Health center sites (\texttt{hc}) are the 11,769\ active, permanent HRSA health center and look-alike service delivery sites retained by Project~1 (school-based and correctional sites excluded). As a second obstetric supplement (\texttt{ob\_clin}) we use the 9,343\ ZIP codes in which Project~1 counted at least one obstetric clinician (OB/GYN, certified or other midwife, or women's health or perinatal nurse practitioner or clinical nurse specialist) by primary practice address in the CMS National Plan and Provider Enumeration System, placed at the ZIP code's interior point.
+
+\textit{4. Location checks.} 
+Every site's coordinates were checked against its listed state using shoreline-clipped Census state boundaries. Points that fell in another state, for example a program in Arlington, Oregon geocoded to Arlington, Texas, were moved to the listed ZIP code's interior point when that point lay in the listed state, and otherwise left unplaced (6\ rows). Table~II reports how many sites of each type were listed, located, and attached to the road network.
+
+\begin{table}
+\centering\caption{\textbf{Table II.} Care sites by type: listed, located (given coordinates), and routed (attached to a main road network within 25~km).}
+\begin{tabular}{@{}llrrr@{}}
+\toprule
+Care type & Code & Listed & Located & Routed \\
+\midrule
+Delivering hospital (confirmed) & \texttt{ob\_hosp} & 2,424 & 2,424 & 2,424 \\
+Delivering hospital (upper bound) & \texttt{ob\_hosp\_upper} & 3,087 & 3,087 & 3,087 \\
+Obstetric clinician ZIP & \texttt{ob\_clin} & 9,343 & 9,143 & 9,051 \\
+Perinatal SUD treatment facility & \texttt{ppw\_bh} & 4,600 & 4,585 & 4,584 \\
+Mental health facility (any) & \texttt{mh\_any} & 12,637 & 12,592 & 12,591 \\
+Health center site & \texttt{hc} & 11,769 & 11,769 & 11,706 \\
+\bottomrule
+\end{tabular}
+
+\end{table}
+
+\subsection*{D. Road network}
+Roads come from OpenStreetMap (OSM)~[18], the open, volunteer-built map of the world, in four regional extracts covering the 48 contiguous states and DC (data timestamp 13 November 2026), each checked against its published checksum. Alaska and Hawaii are not included in those extracts; their roads were taken from the Overture Maps Foundation transportation layer (release 2026-10-21.0), which is derived from OSM roads under the same license, by bounding-box query. We kept the OSM classes a car can use, from motorway to residential and living street with their ramps, plus ferry routes, and dropped ways tagged closed to cars. Private roads were kept: residents of gated subdivisions, military installations, and campuses can drive out through the gate, and dropping these roads strands their homes. Service roads (driveways, parking aisles) and tracks were left out; homes and sites reach the network through the connector rule below.
+
+\section*{III. Methods}
+
+\subsection*{A. Travel speeds}
+Each road link e of length Lₑ receives a free-flow travel time in each permitted direction,
+
+
+\begin{center}\includegraphics[width=0.61in]{word/eq/eq1.png}\quad (1)\end{center}
+
+
+
+
+\begin{center}\includegraphics[width=3.40in]{word/eq/eq2.png}\quad (2)\end{center}
+
+
+where v\_class(c) is the default speed of road class c in the OSRM car profile~[19] (Table~III), v\_max(e) is the mapped posted limit (U.S.\ limits without a unit are read as miles per hour), and the factor 0.8 is the OSRM car profile's speed reduction for posted limits. The cap at 1.5 times the class default guards against mistagged limits. Ferries use their tagged duration where present and the OSRM default of 5~km/h otherwise. One-way restrictions and roundabouts are respected. Traffic, turn penalties, and signals are not modeled, so times are free-flow times.
+
+\begin{table}
+\centering\caption{\textbf{Table III.} Default speeds by OpenStreetMap road class (OSRM car profile).}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+OSM class & Main (km/h) & Ramp (km/h) \\
+\midrule
+motorway & 90 & 45 \\
+trunk & 85 & 40 \\
+primary & 65 & 30 \\
+secondary & 55 & 25 \\
+tertiary & 40 & 20 \\
+unclassified & 25 & -- \\
+residential & 25 & -- \\
+living street & 10 & -- \\
+ferry (no duration tag) & 5 & -- \\
+\bottomrule
+\end{tabular}
+
+\end{table}
+
+\subsection*{B. Graph construction}
+Each OSM way was split into links at every junction (a point shared by two or more ways), at its ends, and every 1~km along its length. The 1~km division matters for rural areas: a home beside a long highway should join the highway near the home, not at the next junction tens of kilometres away. Links from the overlapping regional files were merged, keeping the fastest copy. The result is a directed graph G = (V, E) with 24.4\ million points and 56.0\ million one-way links. Mapped road lines total 8.0\ million km, more than the length of U.S.\ public roads because each direction of a divided highway is mapped separately and private roads are included, plus 15,240\ km of ferry routes.
+
+\subsection*{C. Connecting homes and sites to the network}
+A block group center or care site at point x is joined to the nearest road point π(x) that is not on a freeway or ramp and that lies in a \emph{main road network} (defined below), provided the straight-line distance d(x) is at most 25~km. The connector is driven at 25~km/h with a detour factor of 1.3:
+
+
+\begin{center}\includegraphics[width=1.50in]{word/eq/eq3.png}\quad (3)\end{center}
+
+
+The median connector length for block group centers is 74~m and the 90th percentile 343~m.
+
+\emph{Main road networks.} The graph contains 65,673\ strongly connected pieces (sets of points that can all reach each other). Most small pieces are closed-off fragments: a subdivision whose only connection is an unmapped service road, or a one-way loop. Joining a neighborhood to such a fragment would make every site unreachable. We therefore attach sites in tiers: to a piece with at least 50,000 points within 2~km if one exists; otherwise to a piece with at least 1,000 points within 2~km (islands such as Oahu); otherwise to any piece with at least 50 points within 25~km (towns with no road to the outside, such as Bethel or Nome, Alaska). A main network is any piece of 50,000 or more points or any piece that received a site; there are 71, holding 99.17\% of road points. Block group centers attach only to main networks.
+
+\emph{Islands without a car connection.} A center is treated as having no road route out when its nearest main-network road is more than 2~km away, the nearest road of any kind is either a closed-off piece at least three times closer or no closer at all, and the straight line to the main network crosses open water as judged against the shoreline-clipped Census state boundaries (100~m tolerance for bridges). The rule covers places such as Kalaupapa, Hawaii, Bald Head Island, North Carolina, Mackinac Island, the Maine islands, and Point Roberts, Washington, whose only road runs through Canada: 259\ block groups with 2,083\ women. A further 62\ block groups (5,104\ women), mostly Alaska villages, lie more than 25~km from any usable road. Women in both groups count as beyond every threshold.
+
+\subsection*{D. Shortest paths}
+For care type k with routed site set 𝒮ₖ, the drive time from block group b is
+
+
+\begin{center}\includegraphics[width=3.41in]{word/eq/eq4.png}\quad (4)\end{center}
+
+
+where δ(u, w) is the shortest travel time from road point u to w on G. We compute the bracketed minimum for every road point at once with a single multi-source Dijkstra search~[20] on the reversed graph: each site enters through its own auxiliary node joined to π(s) by an arc of length t\_conn(s), the search starts from all auxiliary nodes together, and the SciPy implementation~[21] returns both the distance and the source (the nearest site) for every point. The search stops at 600 minutes; a block group whose network holds no site of type k within that limit has T\_b⁽ᵏ⁾ = ∞ (``no road route''). This gives the same shortest paths a routing engine computes on the same graph and speeds, without the roughly 64~GB of memory a national engine server would need; the whole computation for six care types takes about five minutes on two processor cores.
+
+\subsection*{E. County measures}
+Let w\_b be the number of women aged 15--44 in block group b and B\_c the block groups of county c. For threshold τ ∈ {30, 60} minutes the headline measure is the share of the county's women beyond the threshold,
+
+
+\begin{center}\includegraphics[width=2.13in]{word/eq/eq5.png}\quad (5)\end{center}
+
+
+where women with no road route count as beyond. We also report the women-weighted median of T\_b⁽ᵏ⁾ (infinite values sorted last, so the median is ``no road route'' when more than half of the county's women have none), the women-weighted mean among women with a route, the longest block group time, and the site nearest to the largest number of the county's women. The same sums over metro, rural, and frontier counties give the group shares in Section~IV.
+
+\subsection*{F. Rural and frontier classification}
+Rural and frontier labels come unchanged from Project~1: rural counties are nonmetropolitan (USDA Economic Research Service Rural-Urban Continuum Codes 2023, codes 4--9), and frontier counties have fewer than six people per square mile of land. The classes are exclusive, with frontier taking precedence: 1,164\ metro, 1,563\ rural, and 417\ frontier counties, of which 22\ are metropolitan by RUCC but frontier by density. Rural and frontier counties hold 8,047,307\ women, 12.2\% of the national total.
+
+\subsection*{G. Validation and quality assurance}
+\emph{Routing check.} We drew 50 block groups at random (fixed seed) for each combination of the three headline care types and three county classes, took the site this study found nearest, and requested the driving duration for the same origin and destination from the public OSRM server, which runs the OSRM car profile on OSM. Agreement was summarized by the median ratio of times, the share within 20\% or 5 minutes, the mean absolute difference, Pearson's r, agreement on the 30- and 60-minute classifications, and Bland--Altman limits of agreement~[22]. Because OSRM uses the same roads and similar speeds and was asked to route to the site this study selected, the check tests the routing computation, not the completeness of the map or the choice of nearest site.
+
+\emph{Published estimates.} National results were compared with Rayburn et al.~[11] and Fontenot et al.~[12], which used different hospital lists, years, populations, and commercial road networks; they are reference points, not exact targets.
+
+\emph{Logic checks.} Adding hospitals (upper-bound list) never lengthens any block group's drive; no time is negative; no county has more women beyond 60 minutes than beyond 30; and county totals equal block group totals. All checks pass and are recorded in the release's quality report, together with spot checks on named counties, including the author's Nevada counties.
+
+\subsection*{H. Reproducibility}
+The pipeline is nine numbered Python scripts, with every measurement choice in one configuration file, a provenance log recording the size and SHA-256 fingerprint of every input, and a statistics file from which every number in this paper is generated. It runs from a single command on a machine with 8~GB of memory and 30~GB of disk. The release is archived on Zenodo (doi:10.5281/zenodo.24206837).
+
+\section*{IV. Results}
+
+\subsection*{A. National access}
+Nationally, the women-weighted median drive is 10.5\ minutes to a delivering hospital, 9.4\ minutes to a perinatal SUD treatment facility, and 7.5\ minutes to a health center (Table~IV). 91.0\% of women live within 30 minutes of a delivering hospital and 99.0\% within 60 minutes; the mean drive among women with a road route is 14.0\ minutes. The corresponding shares beyond 60 minutes are 1.0\% for delivering hospitals, 2.2\% for perinatal SUD treatment, and 0.8\% for health centers: 645,675, 1,460,993, and 533,982\ women, respectively.
+
+\begin{table}
+\centering\caption{\textbf{Table IV.} Distribution of women-weighted drive times (minutes) to the nearest headline site, by county class. P75, P90, P95: percentiles. The last column is the share of women within 15 minutes. n/r: the percentile falls among women with no road route within 600 minutes.}
+\begin{tabular}{@{}llrrrrr@{}}
+\toprule
+Care type & Group & Median & P75 & P90 & P95 & \le15 min (\%) \\
+\midrule
+Delivering hospital (confirmed) & All & 10.5 & 17.4 & 28.6 & 38.0 & 68.9 \\
+ & Metro & 9.9 & 15.4 & 23.5 & 29.8 & 73.6 \\
+ & Rural & 23.0 & 37.4 & 51.0 & 60.0 & 35.6 \\
+ & Frontier & 43.3 & 71.1 & 105.6 & 139.9 & 25.1 \\
+
+Perinatal SUD treatment facility & All & 9.4 & 17.4 & 31.3 & 44.2 & 69.9 \\
+ & Metro & 8.6 & 14.7 & 23.8 & 30.9 & 75.7 \\
+ & Rural & 28.7 & 47.0 & 65.6 & 79.2 & 28.4 \\
+ & Frontier & 63.8 & 105.3 & 149.5 & n/r & 16.5 \\
+
+Health center site & All & 7.5 & 14.0 & 23.2 & 31.1 & 77.4 \\
+ & Metro & 7.0 & 12.5 & 19.6 & 25.1 & 81.7 \\
+ & Rural & 16.2 & 28.9 & 43.7 & 56.0 & 47.0 \\
+ & Frontier & 38.7 & 70.9 & 108.5 & 126.2 & 31.1 \\
+\bottomrule
+\end{tabular}
+
+\end{table}
+
+\subsection*{B. Metro, rural, and frontier differences}
+Access falls steeply from metro to rural to frontier counties for every care type (Figure~1, Table~V). For delivering hospitals the median drive is 9.9\ minutes in metro, 23.0\ in rural, and 43.3\ in frontier counties, and the share of women beyond 60 minutes rises from 0.2\% to 5.0\% and 34.1\%. Perinatal SUD treatment is the least accessible type outside metro areas: the median frontier woman drives 63.8\ minutes, 13.3\% of rural and 53.4\% of frontier women live more than an hour away, and only 81.4\% of frontier women live within two hours. Health centers are the most accessible type in metro and rural counties (median 7.0\ and 16.2\ minutes) but still leave 33.9\% of frontier women beyond an hour. Among the supplements, any mental health facility is closer than a perinatal SUD program everywhere (24.6\% of frontier women beyond an hour), and obstetric clinician ZIP codes are farther than delivering hospitals in frontier counties (47.3\%), consistent with the role of family physicians, who are not in the obstetric clinician group, in attending births at small rural hospitals, and with the added distance of ZIP-level placement.
+
+\begin{figure}
+\centering\includegraphics[width=6.4in]{figures/fig_coverage.png}
+\caption{\textbf{Figure 1.} Share of women aged 15--44 living within t minutes' drive of the nearest (a) delivering hospital, (b) perinatal SUD treatment facility, and (c) health center site, by county class (women-weighted cumulative distributions). Dashed lines mark 30 and 60 minutes. Curves that stay below 100\% at the right edge include women with no road route.}
+\end{figure}
+
+\begin{table}
+\centering\caption{\textbf{Table V.} Share of women aged 15--44 living more than 30 and more than 60 minutes' drive from the nearest site of each care type, by county class (percent). Women with no road route count as beyond. ``Upper bound'' adds hospitals whose labor and delivery status CMS does not report.}
+\begin{tabular}{@{}lrrrrrrrr@{}}
+\toprule
+ & \multicolumn{2}{c}{All} & \multicolumn{2}{c}{Metro} & \multicolumn{2}{c}{Rural} & \multicolumn{2}{c}{Frontier} \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7} \cmidrule(lr){8-9}
+Care type & >30 & >60 & >30 & >60 & >30 & >60 & >30 & >60 \\
+\midrule
+Delivering hospital (confirmed) & 9.0 & 1.0 & 4.9 & 0.2 & 37.0 & 5.0 & 62.6 & 34.1 \\
+Delivering hospital (upper bound) & 7.4 & 0.5 & 4.3 & 0.1 & 29.3 & 2.3 & 41.1 & 15.8 \\
+Obstetric clinician ZIP & 5.4 & 0.7 & 2.1 & 0.1 & 26.6 & 2.8 & 80.0 & 47.3 \\
+Perinatal SUD treatment facility & 10.8 & 2.2 & 5.5 & 0.4 & 48.0 & 13.3 & 74.6 & 53.4 \\
+Mental health facility (any) & 4.3 & 0.5 & 2.1 & 0.1 & 18.7 & 2.0 & 47.4 & 24.6 \\
+Health center site & 5.5 & 0.8 & 2.8 & 0.1 & 23.4 & 4.1 & 55.7 & 33.9 \\
+\midrule
+Counties & \multicolumn{2}{c}{3,144} & \multicolumn{2}{c}{1,164} & \multicolumn{2}{c}{1,563} & \multicolumn{2}{c}{417} \\
+Women 15--44 (thousands) & \multicolumn{2}{c}{65,971} & \multicolumn{2}{c}{57,923} & \multicolumn{2}{c}{7,624} & \multicolumn{2}{c}{423} \\
+\bottomrule
+\end{tabular}
+
+\end{table}
+
+\begin{figure}
+\centering\includegraphics[width=6.4in]{figures/fig_bars.png}
+\caption{\textbf{Figure 2.} Women aged 15--44 living more than (a) 30 and (b) 60 minutes from the nearest site of each of the six care types, by county class.}
+\end{figure}
+
+Figure~2 sets all six care types side by side. Two contrasts stand out. In rural counties, the share beyond 60 minutes is 13.3\% for perinatal SUD treatment against 5.0\% for delivering hospitals and 4.1\% for health centers, so perinatal SUD programs are about three times as far out of reach as the two general services. In frontier counties all three headline types leave a third or more of women beyond an hour.
+
+\subsection*{C. Geography}
+Figure~3 maps the county share of women beyond 60 minutes. Long drives to delivering hospitals concentrate in the Great Plains, the interior West, west Texas, Alaska, and pockets of the South and Appalachia. The perinatal SUD map is far darker: most of the northern and central Plains, much of Montana, Wyoming, Nevada, eastern Oregon, west Texas, and Alaska, and scattered counties across the South. Health center access (Figure~4a) is good in most of the South and East but poor across the Plains and interior West. By state (Figure~5, Table~VI), the largest shares of women beyond an hour from perinatal SUD treatment are in AK\ (24.9\%), SD\ (23.6\%), WY\ (19.5\%), MT\ (18.3\%), and ND\ (16.0\%); 9\ states exceed 10\%.
+
+\begin{figure}
+\centering\includegraphics[width=6.4in]{figures/fig_map_ob_ppw.png}
+\caption{\textbf{Figure 3.} Share of each county's women aged 15--44 living more than 60 minutes' drive from (a) a delivering hospital (confirmed list) and (b) a substance use treatment facility serving pregnant or postpartum women. Alaska (scaled) and Hawaii are shown as insets.}
+\end{figure}
+
+\begin{figure}
+\centering\includegraphics[width=6.4in]{figures/fig_map_hc_upper.png}
+\caption{\textbf{Figure 4.} Share of each county's women aged 15--44 living more than 60 minutes' drive from (a) a HRSA health center site and (b) a delivering hospital on the upper-bound list. Panel (b) is the lower bound on hospital travel; compare with Figure~3(a).}
+\end{figure}
+
+\begin{figure}
+\centering\includegraphics[width=4.0in]{figures/fig_states.png}
+\caption{\textbf{Figure 5.} The 20 states with the largest share of women aged 15--44 more than 60 minutes from a perinatal SUD treatment facility, with the corresponding shares for delivering hospitals and health centers.}
+\end{figure}
+
+\begin{table}
+\centering\caption{\textbf{Table VI.} The 12 states with the largest share of women aged 15--44 more than 60 minutes from perinatal SUD treatment (percent beyond 60 minutes).}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+State & Women 15--44 & Hospital & PPW SUD & Health ctr. \\
+\midrule
+AK & 145,641 & 11.7 & 24.9 & 8.1 \\
+SD & 167,665 & 9.0 & 23.6 & 10.8 \\
+WY & 109,187 & 11.0 & 19.5 & 24.2 \\
+MT & 207,746 & 10.0 & 18.3 & 9.4 \\
+ND & 156,458 & 11.1 & 16.0 & 10.2 \\
+MS & 584,757 & 5.0 & 14.8 & 0.0 \\
+KS & 573,832 & 1.5 & 10.4 & 3.0 \\
+NM & 405,272 & 4.9 & 10.4 & 1.7 \\
+AR & 592,370 & 4.0 & 10.4 & 0.1 \\
+NE & 386,076 & 1.1 & 8.3 & 7.5 \\
+MN & 1,108,495 & 1.1 & 7.6 & 13.4 \\
+OK & 802,035 & 2.1 & 7.4 & 0.8 \\
+\bottomrule
+\end{tabular}
+
+\end{table}
+
+\subsection*{D. Counties cut off from care}
+Table~VII counts counties in which most women live beyond each threshold, and Figure~6 shows the full distribution of county shares. In 568\ counties most women live more than an hour from perinatal SUD treatment (278\ rural and 278\ frontier); in 376\ counties every woman does. The corresponding counts are 305\ counties for delivering hospitals and 275\ for health centers. In 336\ rural or frontier counties most women are more than an hour from perinatal SUD treatment while most are within an hour of a delivering hospital, where screening during prenatal and delivery care could occur but treatment referral would require long travel.
+
+\begin{table}
+\centering\caption{\textbf{Table VII.} Counties in which more than half of women aged 15--44 live beyond 30 or 60 minutes, by care type and county class.}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+ & \multicolumn{3}{c}{Majority >30 min} & \multicolumn{3}{c}{Majority >60 min} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}
+Care type & Metro & Rural & Frontier & Metro & Rural & Frontier \\
+\midrule
+Delivering hospital (confirmed) & 275 & 790 & 345 & 5 & 110 & 190 \\
+Delivering hospital (upper bound) & 210 & 520 & 209 & 2 & 35 & 88 \\
+Obstetric clinician ZIP & 144 & 581 & 374 & 2 & 65 & 243 \\
+Perinatal SUD treatment facility & 252 & 936 & 370 & 12 & 278 & 278 \\
+Mental health facility (any) & 77 & 354 & 278 & 2 & 39 & 147 \\
+Health center site & 110 & 416 & 294 & 6 & 88 & 181 \\
+\midrule
+Counties in group & 1,164 & 1,563 & 416 & 1,164 & 1,563 & 416 \\
+\bottomrule
+\end{tabular}
+
+\end{table}
+
+\begin{figure}
+\centering\includegraphics[width=4.0in]{figures/fig_county_dist.png}
+\caption{\textbf{Figure 6.} Distribution of counties by the share of their women aged 15--44 living more than 60 minutes from each headline care type, by county class.}
+\end{figure}
+
+108\ counties have most women more than an hour from all three headline care types. All are rural or frontier: 101\ are frontier and 67\ have fewer than 500 women aged 15--44 (57,448\ women in all), spread across 20\ states, led by MT (17), ND (16), SD (12), TX (11), and NE (9). These are mostly very small, sparsely settled counties whose shares rest on few people; half lie in Montana, the Dakotas, and Nebraska, where groups of adjacent counties have no type of perinatal care within an hour.
+
+Across counties, median drive times to the three care types are moderately correlated (Spearman ρ = 0.56 between delivering hospitals and perinatal SUD treatment, 0.45\ between hospitals and health centers, and 0.49\ between perinatal SUD treatment and health centers; Figure~7). Many rural counties lie well above the diagonal in Figure~7: close to a delivering hospital, far from perinatal SUD treatment.
+
+\begin{figure}
+\centering\includegraphics[width=4.0in]{figures/fig_joint.png}
+\caption{\textbf{Figure 7.} County women-weighted median drive to a delivering hospital against that to perinatal SUD treatment (log scales). Points above the diagonal are farther from perinatal SUD treatment than from a delivering hospital. Dashed lines mark 30 and 60 minutes.}
+\end{figure}
+
+\subsection*{E. County counts versus drive times}
+Table~VIII compares the presence of a site inside a rural or frontier county with whether most of its women live within 30 minutes of one. The two views agree for 92.2\% of counties for perinatal SUD treatment, but disagree in both directions. Of the 1,384\ rural or frontier counties with no perinatal SUD listing inside the county, 116\ have most women within 30 minutes of one across the county line; a county count would call them unserved. Conversely, 38\ counties with a listing inside still leave most women more than 30 minutes away; a count would call them served. The same pattern holds for delivering hospitals: 150\ counties without a hospital are served from next door, and 27\ counties with one leave most women more than 30 minutes away.
+
+\begin{table}
+\centering\caption{\textbf{Table VIII.} Rural and frontier counties by whether a site lies inside the county and whether most women live within 30 minutes of one.}
+\begin{tabular}{@{}llrr@{}}
+\toprule
+Care type & Site inside county? & Most women \le30 min & Most women >30 min \\
+\midrule
+Delivering hospital & Yes & 694 & 27 \\
+ & No & 150 & 1,108 \\
+Perinatal SUD facility & Yes & 557 & 38 \\
+ & No & 116 & 1,268 \\
+\bottomrule
+\end{tabular}
+
+\end{table}
+
+\subsection*{F. Sensitivity to the hospital list}
+Adding the 663\ hospitals whose labor and delivery status CMS does not report shortens the drive for 3.3\ million women and changes the picture most where it matters most (Figure~8, Figure~4b). The share of frontier women beyond 60 minutes falls from 34.1\% to 15.8\%, the rural share from 5.0\% to 2.3\%, and the number of rural and frontier women beyond an hour from 525,205\ to 240,903. In 261\ counties the share beyond an hour drops by more than 25 percentage points. Because some of the added hospitals do deliver babies and some do not, the true rural and frontier values lie between the two lists; resolving these hospitals is the most valuable single improvement to the measure.
+
+\begin{figure}
+\centering\includegraphics[width=4.0in]{figures/fig_sensitivity.png}
+\caption{\textbf{Figure 8.} Share of women aged 15--44 beyond (a) 30 and (b) 60 minutes from a delivering hospital under the confirmed and upper-bound hospital lists, by county class.}
+\end{figure}
+
+\subsection*{G. Agreement with OSRM and published estimates}
+For the 450\ check trips, this study's times and OSRM's agree closely (Figure~9, Table~IX). The median ratio of times is 0.992, 98.2\% of trips agree within 20\% or 5 minutes, the mean absolute difference is 1.4\ minutes, and Pearson r = 0.996. The mean difference is -0.17\ minutes with 95\% limits of agreement from -6.4\ to 6.1\ minutes; 90\% of trips differ by less than 2.8\ minutes and 8\ by more than 10. Classification agrees for 98.7\% of trips at 30 minutes and 99.1\% at 60 minutes. Metro times run slightly faster (median ratio 0.94) because OSRM adds turn and signal penalties; rural and frontier ratios are 1.00\ and 1.00. The largest differences occur in frontier block groups, where the two methods can attach the same origin to different roads.
+
+\begin{figure}
+\centering\includegraphics[width=6.4in]{figures/fig_validation.png}
+\caption{\textbf{Figure 9.} Drive times for the same 450\ origin--site pairs from this study and from the public OSRM server. (a) Times on log scales with the line of equality. (b) Bland--Altman plot of the difference against the mean; dashed lines are the 95\% limits of agreement.}
+\end{figure}
+
+\begin{table}
+\centering\caption{\textbf{Table IX.} Agreement with the OSRM server by stratum. MAD: mean absolute difference.}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+Stratum & n & Median ratio & MAD (min) & r & Agree 30 (\%) & Agree 60 (\%) \\
+\midrule
+All trips & 450 & 0.992 & 1.4 & 0.996 & 98.7 & 99.1 \\
+
+Metro & 150 & 0.940 & 0.8 & 0.996 & 98.7 & 99.3 \\
+Rural & 150 & 1.003 & 1.2 & 0.993 & 98.7 & 99.3 \\
+Frontier & 150 & 0.998 & 2.1 & 0.993 & 98.7 & 98.7 \\
+
+Delivering hospital & 150 & 0.992 & 1.5 & 0.991 & 98.7 & 98.0 \\
+Perinatal SUD facility & 150 & 0.995 & 1.3 & 0.997 & 98.7 & 99.3 \\
+Health center & 150 & 0.988 & 1.2 & 0.997 & 98.7 & 100.0 \\
+\bottomrule
+\end{tabular}
+
+\end{table}
+
+The national mean drive to a delivering hospital, 14.0\ minutes, matches the 14.1\ minutes reported by Fontenot and colleagues from tract centroids on a commercial network~[12]. The share within 30 minutes (91.0\%) is close to the 87.5\% reported by Rayburn and colleagues and the share within 60 minutes (99.0\%) to their 97.3\%~[11], although that study counted women aged 18--39 with 2007 hospital data and 2010 population, so the comparison is approximate.
+
+\subsection*{H. Nevada}
+Table~X shows the author's home state. Statewide, 2.3\% of Nevada's 623,382\ women aged 15--44 live more than an hour from a delivering hospital and 1.8\% from perinatal SUD treatment, because most live in Clark and Washoe counties. The rural and frontier counties tell a different story. In five\ counties (Esmeralda, Eureka, Lincoln, Mineral, and Pershing) no woman lives within an hour of a delivering hospital, and in seven\ (Esmeralda, Eureka, Humboldt, Lander, Lincoln, Pershing, and White Pine) none lives within an hour of perinatal SUD treatment. White Pine County is served by the Ely hospital but lies about three hours from the nearest perinatal SUD program, in Delta, Utah; Nye County's women live mostly in Pahrump, near treatment and a health center but about an hour from a delivering hospital in Las Vegas. These patterns agree with the author's earlier county mapping, which found seven Nevada counties without an OB/GYN provider and more than half without dedicated perinatal behavioral health services.
+
+\begin{table}
+\centering\caption{\textbf{Table X.} Nevada counties: women-weighted median drive (minutes) and share of women beyond 60 minutes for the headline care types. Hosp.: delivering hospital; PPW: perinatal SUD treatment; HC: health center.}
+\begin{tabular}{@{}llrrrrrr@{}}
+\toprule
+ & & & \multicolumn{3}{c}{Median minutes} & \multicolumn{2}{c}{>60 min (\%)} \\
+\cmidrule(lr){4-6}\cmidrule(lr){7-8}
+County & Class & Women & Hosp. & PPW & HC & Hosp. & PPW \\
+\midrule
+Carson City & metro & 9,593 & 9 & 4 & 5 & 0 & 0 \\
+Churchill & frontier & 4,484 & 11 & 9 & 70 & 0 & 0 \\
+Clark & metro & 468,798 & 8 & 7 & 7 & 0 & 0 \\
+Douglas & rural & 6,565 & 36 & 20 & 31 & 3 & 0 \\
+Elko & frontier & 10,528 & 15 & 21 & 9 & 16 & 16 \\
+Esmeralda & frontier & 131 & 147 & 146 & 146 & 100 & 100 \\
+Eureka & frontier & 142 & 128 & 120 & 98 & 100 & 100 \\
+Humboldt & frontier & 2,858 & 14 & 132 & 110 & 10 & 100 \\
+Lander & frontier & 977 & 59 & 75 & 53 & 30 & 100 \\
+Lincoln & frontier & 804 & 123 & 129 & 92 & 100 & 100 \\
+Lyon & metro & 10,413 & 38 & 8 & 45 & 14 & 0 \\
+Mineral & frontier & 733 & 90 & 71 & 141 & 100 & 94 \\
+Nye & frontier & 6,893 & 67 & 10 & 11 & 86 & 13 \\
+Pershing & frontier & 881 & 68 & 81 & 114 & 100 & 100 \\
+Storey & metro & 442 & 40 & 28 & 14 & 0 & 0 \\
+Washoe & metro & 97,840 & 10 & 9 & 7 & 0 & 0 \\
+White Pine & frontier & 1,300 & 4 & 182 & 136 & 4 & 100 \\
+\bottomrule
+\end{tabular}
+
+\end{table}
+
+\section*{V. Discussion}
+
+\subsection*{A. What the measures show}
+Most women of reproductive age in the United States live within half an hour of a delivering hospital, a health center, and a perinatal SUD treatment program. The exceptions are concentrated where population is thin. In frontier counties a third of women live more than an hour from a delivering hospital or a health center and more than half from perinatal SUD treatment, and across the northern and central Plains whole groups of counties have no type of perinatal care within an hour. The most distinctive finding is the gap between obstetric and behavioral health access in rural counties: perinatal SUD programs are about three times as often out of reach as delivering hospitals. Because perinatal screening usually happens in obstetric settings, these are places where a positive screen can be obtained close to home but treatment designed for pregnant and postpartum women cannot.
+
+\subsection*{B. Implications for planning}
+Three uses follow. First, the measures identify counties for service models that do not depend on travel: telehealth treatment and consultation, perinatal psychiatry access programs that support obstetric clinicians in managing behavioral health conditions~[23], mobile treatment, and co-location of SUD treatment with obstetric care in the hospitals and health centers that are close. Second, the comparison of county counts with drive times (Table~VIII) shows where count-based designations misclassify: counties without a program that are served from next door, and counties with a program that most of their women cannot reach. Third, because the method is open and runs on an ordinary computer, states can repeat it with their own facility lists, such as licensed birth centers, state-designated perinatal centers, or perinatal psychiatry programs, and with their own thresholds.
+
+\subsection*{C. Relation to previous work}
+Our national hospital results agree with earlier commercial-network studies~[11, 12] despite different hospital lists and years, which supports the use of open roads and published routing speeds for this purpose. The decline documented by Ranchoff and colleagues~[13] implies that the confirmed hospital measure should be refreshed as units close; the pipeline is designed for annual re-runs, each archived as a new version under the same concept DOI. To our knowledge this is the first national, county-level measure of travel time to SUD treatment programs for pregnant and postpartum women.
+
+\subsection*{D. Limitations}
+The times are free-flow car times without traffic, weather, or seasonal closures; women without a car or who rely on public transportation face longer trips. Speeds follow standard routing-engine values rather than measured speeds, which leans conservative on rural highways (0.8 times a 55~mph limit is about 44~mph). The nearest site is not necessarily the one a woman uses, because insurance, level of care, waiting lists, language, and trust shape choices. CMS under-lists rural delivering hospitals, which the upper-bound list brackets, and freestanding birth centers are not included. The perinatal treatment flag covers substance use programs only; no open national list identifies perinatal mental health programs, and telehealth care is not counted. Neighborhood centers stand in for every home, which understates the spread of drive times within large frontier block groups. Places with no road route within 600 minutes, including islands without a car connection and Southeast Alaska towns served by the state ferry (whose long crossings exceed the limit at the default ferry speed), are reported as unreachable rather than given air, boat, or ferry times. Site coordinates are taken as published or geocoded, and errors within the correct state are not caught. The OSRM comparison checks the routing computation, not the completeness of the road map. Data years differ by source (Table~I), and small counties' shares are unstable.
+
+\section*{VI. Conclusions}
+We released an open, reproducible measure of drive-time access to delivering hospitals, perinatal SUD treatment, and health centers for every U.S.\ county, with rural and frontier results, an upper bound for under-reported hospitals, and a check against a standard routing engine. Access is good for most women but poor across the rural and frontier interior, and perinatal SUD treatment is the least accessible of the three services by a wide margin. Joined with the need and capacity measures of Project~1 on the shared county key, the release provides the travel layer for a public, national county map of perinatal behavioral health readiness.
+
+\section*{Data and code availability}
+Data, code, codebook, routing method notes, quality report, and provenance log: \url{https://github.com/memesobum/perinatal-access-layer}; archived on Zenodo, doi:10.5281/zenodo.24206837. Licenses: code MIT; data and documents CC BY 4.0; road-derived values contain information from OpenStreetMap, \copyright\ OpenStreetMap contributors, available under the Open Database License.
+
+\section*{Use of AI tools}
+Claude (Anthropic) assisted with code and data handling. The author made every measurement decision and verified the results.
+
+\section*{Competing interests and funding}
+None declared. No funding was received.
+
+\section*{References}
+
+[1] Centers for Disease Control and Prevention. Pregnancy-related deaths: data from maternal mortality review committees in 38 U.S. states, 2020. Atlanta, GA: CDC; 2024.
+
+[2] B.~L. Bauman, J.~Y. Ko, S.~Cox, et~al. Vital signs: postpartum depressive symptoms and provider discussions about perinatal depression---United States, 2018. \emph{MMWR Morb. Mortal. Wkly. Rep.}, 69(19):575--581, 2020. doi:10.15585/mmwr.mm6919a2
+
+[3] D.~L. Luca, C.~Margiotta, C.~Staatz, et~al. Financial toll of untreated perinatal mood and anxiety disorders among 2017 births in the United States. \emph{Am. J. Public Health}, 110(6):888--896, 2020. doi:10.2105/AJPH.2020.305619
+
+[4] American College of Obstetricians and Gynecologists. Screening and diagnosis of mental health conditions during pregnancy and postpartum: Clinical Practice Guideline No.~4. \emph{Obstet. Gynecol.}, 141(6):1232--1261, 2023. doi:10.1097/AOG.0000000000005200
+
+[5] A.~Meinhofer, J.~M. Hinde, and M.~M. Ali. Substance use disorder treatment services for pregnant and postpartum women in residential and outpatient settings. \emph{J. Subst. Abuse Treat.}, 110:9--17, 2020. doi:10.1016/j.jsat.2019.12.005
+
+[6] S.~W. Patrick, M.~R. Richards, W.~D. Dupont, et~al. Association of pregnancy and insurance status with treatment access for opioid use disorder. \emph{JAMA Netw. Open}, 3(8):e2013456, 2020. doi:10.1001/jamanetworkopen.2020.13456
+
+[7] C.~H.~A. Andrilla, D.~G. Patterson, L.~A. Garberson, et~al. Geographic variation in the supply of selected behavioral health providers. \emph{Am. J. Prev. Med.}, 54(6 Suppl 3):S199--S207, 2018. doi:10.1016/j.amepre.2018.01.004
+
+[8] P.~Hung, C.~E. Henning-Smith, M.~M. Casey, and K.~B. Kozhimannil. Access to obstetric services in rural counties still declining, with 9 percent losing services, 2004--14. \emph{Health Aff.}, 36(9):1663--1671, 2017. doi:10.1377/hlthaff.2017.0338
+
+[9] K.~B. Kozhimannil, P.~Hung, C.~Henning-Smith, M.~M. Casey, and S.~Prasad. Association between loss of hospital-based obstetric services and birth outcomes in rural counties in the United States. \emph{JAMA}, 319(12):1239--1247, 2018. doi:10.1001/jama.2018.1830
+
+[10] W.~Luo and F.~Wang. Measures of spatial accessibility to health care in a GIS environment: synthesis and a case study in the Chicago region. \emph{Environ. Plann. B Plann. Des.}, 30(6):865--884, 2003. doi:10.1068/b29120
+
+[11] W.~F. Rayburn, M.~E. Richards, and E.~C. Elwell. Drive times to hospitals with perinatal care in the United States. \emph{Obstet. Gynecol.}, 119(3):611--616, 2012. doi:10.1097/AOG.0b013e318242b4cb
+
+[12] J.~Fontenot, C.~Brigance, R.~Lucas, and A.~Stoneburner. Navigating geographical disparities: access to obstetric hospitals in maternity care deserts and across the United States. \emph{BMC Pregnancy Childbirth}, 24:350, 2024. doi:10.1186/s12884-024-06535-7
+
+[13] B.~L. Ranchoff, A.~Kofner, O.~Baker, et~al. Obstetric service availability and travel time to access obstetric services in the U.S., 2010--2021. \emph{Am. J. Prev. Med.}, 71(2):108315, 2026. doi:10.1016/j.amepre.2026.108315
+
+[14] D.~J. Weiss, A.~Nelson, H.~S. Gibson, et~al. A global map of travel time to cities to assess inequalities in accessibility in 2015. \emph{Nature}, 553(7688):333--336, 2018. doi:10.1038/nature25181
+
+[15] D.~J. Weiss, A.~Nelson, C.~A. Vargas-Ruiz, et~al. Global maps of travel time to healthcare facilities. \emph{Nat. Med.}, 26(12):1835--1838, 2020. doi:10.1038/s41591-020-1059-1
+
+[16] M.~A. Emesobum. U.S. County Perinatal Behavioral Health Need and Capacity Panel (Version 0.1.0) [Data set]. Zenodo, 2026. doi:10.5281/zenodo.24025395
+
+[17] U.S. Census Bureau. Centers of population by block group, 2020 Census. \url{https://www2.census.gov/geo/docs/reference/cenpop2020/}
+
+[18] M.~Haklay and P.~Weber. OpenStreetMap: user-generated street maps. \emph{IEEE Pervasive Comput.}, 7(4):12--18, 2008. doi:10.1109/MPRV.2008.80
+
+[19] D.~Luxen and C.~Vetter. Real-time routing with OpenStreetMap data. In \emph{Proc. 19th ACM SIGSPATIAL Int. Conf. Advances in Geographic Information Systems}, 513--516, 2011. doi:10.1145/2093973.2094062
+
+[20] E.~W. Dijkstra. A note on two problems in connexion with graphs. \emph{Numer. Math.}, 1:269--271, 1959. doi:10.1007/BF01386390
+
+[21] P.~Virtanen, R.~Gommers, T.~E. Oliphant, et~al. SciPy 1.0: fundamental algorithms for scientific computing in Python. \emph{Nat. Methods}, 17:261--272, 2020. doi:10.1038/s41592-019-0686-2
+
+[22] J.~M. Bland and D.~G. Altman. Statistical methods for assessing agreement between two methods of clinical measurement. \emph{Lancet}, 327(8476):307--310, 1986. doi:10.1016/S0140-6736(86)90837-8
+
+[23] N.~Byatt, K.~Biebel, T.~A. Moore Simas, et~al. Improving perinatal depression care: the Massachusetts Child Psychiatry Access Project for Moms. \emph{Gen. Hosp. Psychiatry}, 40:12--17, 2016. doi:10.1016/j.genhosppsych.2016.03.002
+\end{document}

@@ -7,5 +7,5 @@
 # Secrets are still checked everywhere. Everything else, including every data table, README, CITATION.cff,
 # and the paper, is checked for draft stamps and placeholders.
 cd "$(dirname "$0")/.."
-python3 tools/publish_gate.py . --allow-draft-in tools/ code/ paper/make_numbers.py paper/analysis.py paper/figures.py \
+python3 tools/publish_gate.py . --allow-draft-in tools/ code/ paper/make_numbers.py paper/analysis.py paper/figures.py paper/graphic_abstract.py paper/make_submission.py paper/word/ \
   docs/GLOSSARY.md docs/VERIFY_CHECKLIST.md docs/PUBLISH_GUIDE.md docs/CHANGELOG.md

@@ -86,10 +86,11 @@ CM = ListedColormap(sns.color_palette("rocket_r", 5))
 def draw_map(ax, g, st, col, title):
     d = g.merge(c[["fips", col, "women_15_44"]], left_on="GEOID", right_on="fips", how="left")
     nod = d[d[col].isna() | (d.women_15_44 <= 0)]
-    nod.plot(ax=ax, color="0.85", linewidth=0)
-    d.drop(nod.index).plot(ax=ax, column=col, cmap=CM, norm=BoundaryNorm(BINS, 5), linewidth=0.03, edgecolor="white")
-    st.boundary.plot(ax=ax, linewidth=0.35, color="white")
-    st.boundary.plot(ax=ax, linewidth=0.15, color="0.35")
+    nod.plot(ax=ax, color="0.85", linewidth=0, rasterized=True)
+    d.drop(nod.index).plot(ax=ax, column=col, cmap=CM, norm=BoundaryNorm(BINS, 5), linewidth=0.03, edgecolor="white",
+                           rasterized=True)
+    st.boundary.plot(ax=ax, linewidth=0.35, color="white", rasterized=True)
+    st.boundary.plot(ax=ax, linewidth=0.15, color="0.35", rasterized=True)
     ax.set_axis_off()
     ax.set_title(title, fontsize=9)
 
