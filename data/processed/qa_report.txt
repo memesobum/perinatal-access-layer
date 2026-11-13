@@ -1,0 +1,119 @@
+QUALITY REPORT: Rural and Frontier Perinatal Care Access Layer
+======================================================================
+
+1. ROAD NETWORK
+  alaska               45,103 km       98,584 links  (Overture Maps transportation release 2026-10-21.0 (OSM-derived, ODbL))
+  hawaii               11,067 km       52,573 links  (Overture Maps transportation release 2026-10-21.0 (OSM-derived, ODbL))
+  us-midwest        2,415,535 km    7,640,764 links  (OpenStreetMap us-midwest extract)
+  us-northeast        764,221 km    3,561,618 links  (OpenStreetMap us-northeast extract)
+  us-south          3,172,904 km   12,745,341 links  (OpenStreetMap us-south extract)
+  us-west           1,645,999 km    6,314,685 links  (OpenStreetMap us-west extract)
+  national graph: 24,382,996 road points, 55,958,901 one-way links, 65,673 strongly connected pieces; 99.17% of points in 71 main networks
+
+2. NEIGHBORHOODS (block groups)
+  matched center point + ACS row: 239,741.0; center only: 39.0 (Suffolk County NY tract recode; ACS women there are all in matched block groups); ACS only: 1.0
+  women aged 15-44: 65,970,543; block groups with zero women: 3,759.0
+  distance from center to nearest usable road (km): median 0.07, 90th pct 0.34, 99th pct 1.05
+  block groups farther than 5 km from a road: 286 (11,777 women)
+  not connected (more than 25 km): 62 block groups, 5,104 women
+
+3. CARE SITES
+service_type                      hc  mh_any  ob_clin  ob_hosp  ob_hosp_upper  ppw_bh
+census_geocoder_exact              0       0        0     1706           2115       0
+census_geocoder_nonexact           0       0        0       30            191       0
+cms_birthing_friendly_geocode      0       0        0      655            655       0
+findtreatment_coordinates          0   11742        0        0              0    4336
+hrsa_coordinates               11768       0        0        0              0       0
+unplaced                           0      44        0        0              0      15
+unplaced_zip_not_a_zcta            0       0      200        0              0       0
+zip_interior_point                 1     851     9143       33            126     249
+  sites farther than 25 km from a usable road (not routed): {'hc': 63, 'mh_any': 1, 'ob_clin': 92, 'ob_hosp': 1, 'ob_hosp_upper': 1, 'ppw_bh': 1}
+  ob_hosp        routed sites: 2,423
+  ob_hosp_upper  routed sites: 3,086
+  ob_clin        routed sites: 9,051
+  ppw_bh         routed sites: 4,584
+  mh_any         routed sites: 12,592
+  hc             routed sites: 11,706
+  hospitals where the Census geocode and CMS's geocode differ by more than 2 km: 55 (listed in qa_hospital_geocode_differences.csv; the CMS point was used only for non-exact Census matches)
+
+4. LOGIC CHECKS (each should say 0)
+  block groups where adding hospitals made the drive longer (upper > confirmed): 0
+  negative drive times: 0
+  ob_hosp: counties with more women beyond 60 min than beyond 30 min: 0
+  ob_hosp_upper: counties with more women beyond 60 min than beyond 30 min: 0
+  ob_clin: counties with more women beyond 60 min than beyond 30 min: 0
+  ppw_bh: counties with more women beyond 60 min than beyond 30 min: 0
+  mh_any: counties with more women beyond 60 min than beyond 30 min: 0
+  hc: counties with more women beyond 60 min than beyond 30 min: 0
+  women in county table vs block groups: 65,970,543 vs 65,970,543
+  counties in table: 3,144; counties with no block group: 0
+
+5. UNREACHABLE BY ROAD (women in block groups with no road route to any delivering hospital)
+  145 block groups, 17,768 women; by state: {'02': 13767.0, '53': 2443.0, '06': 661.0, '15': 534.0, '23': 198.0, '44': 101.0, '26': 59.0, '39': 5.0}
+
+6. CHECK AGAINST OSRM (public open routing engine, same OpenStreetMap roads)
+  pairs compared: 450 of 450 sampled; median ratio project/OSRM 0.992; median difference -0.2 min; mean absolute difference 1.9 min; within 20% or 5 min: 97.3%; correlation 0.974
+  agree on the 30-minute cutoff: 98.9%; on the 60-minute cutoff: 99.1%
+    rurality_frontier    n=150 median ratio 0.998, within 20%/5 min 93.3%, agree 30 98.7%, agree 60 98.0%
+    rurality_metro       n=150 median ratio 0.946, within 20%/5 min 100.0%, agree 30 99.3%, agree 60 100.0%
+    rurality_rural       n=150 median ratio 1.003, within 20%/5 min 98.7%, agree 30 98.7%, agree 60 99.3%
+    type_hc              n=150 median ratio 0.981, within 20%/5 min 96.0%, agree 30 99.3%, agree 60 98.7%
+    type_ob_hosp         n=150 median ratio 0.998, within 20%/5 min 98.0%, agree 30 98.0%, agree 60 98.7%
+    type_ppw_bh          n=150 median ratio 0.994, within 20%/5 min 98.0%, agree 30 99.3%, agree 60 100.0%
+
+7. NAMED SPOT CHECKS (women 15-44; share beyond 30 / 60 min; median minutes; site nearest to most women)
+  32003 Clark County, NV (Las Vegas; easy case): women 468,798
+      ob_hosp  >30: 1%  >60: 0%  median 7.8 min  nearest: UNIVERSITY MEDICAL CENTER
+      ppw_bh   >30: 0%  >60: 0%  median 7.0 min  nearest: Legacy Health and Wellness
+      hc       >30: 0%  >60: 0%  median 7.3 min  nearest: North East Medical Services - Las Vegas
+  32031 Washoe County, NV (Reno): women 97,840
+      ob_hosp  >30: 2%  >60: 0%  median 9.9 min  nearest: RENOWN REGIONAL MEDICAL CENTER
+      ppw_bh   >30: 1%  >60: 0%  median 8.6 min  nearest: Life Change Center
+      hc       >30: 1%  >60: 0%  median 7.1 min  nearest: Sparks Health Center
+  32009 Esmeralda County, NV (frontier): women 131
+      ob_hosp  >30: 100%  >60: 100%  median 146.8 min  nearest: NORTHERN INYO HOSPITAL
+      ppw_bh   >30: 100%  >60: 100%  median 145.8 min  nearest: Alpine Recovery Center
+      hc       >30: 100%  >60: 100%  median 145.6 min  nearest: Bishop Community Health Center
+  32011 Eureka County, NV (frontier): women 142
+      ob_hosp  >30: 100%  >60: 100%  median 128.4 min  nearest: NORTHEASTERN NEVADA REGIONAL HOSPITAL
+      ppw_bh   >30: 100%  >60: 100%  median 120.0 min  nearest: Vitality Integrated Programs Elko
+      hc       >30: 100%  >60: 100%  median 97.7 min  nearest: Carlin Community Health Center
+  32017 Lincoln County, NV (frontier): women 804
+      ob_hosp  >30: 100%  >60: 100%  median 123.2 min  nearest: INTERMOUNTAIN HEALTH CEDAR CITY HOSPITAL
+      ppw_bh   >30: 100%  >60: 100%  median 129.2 min  nearest: Lions Gate Recovery
+      hc       >30: 100%  >60: 100%  median 92.0 min  nearest: ENTERPRISE VALLEY MED CLINIC, INC.
+  32023 Nye County, NV (frontier, large): women 6,893
+      ob_hosp  >30: 100%  >60: 86%  median 67.0 min  nearest: SOUTHERN HILLS HOSPITAL AND MEDICAL CENTER
+      ppw_bh   >30: 13%  >60: 13%  median 9.5 min  nearest: New Beginnings Counseling Centers Inc
+      hc       >30: 9%  >60: 8%  median 11.2 min  nearest: Pahrump Family Health Center
+  32033 White Pine County, NV (frontier, Ely hospital): women 1,300
+      ob_hosp  >30: 8%  >60: 4%  median 3.9 min  nearest: WILLIAM BEE RIRIE HOSPITAL
+      ppw_bh   >30: 100%  >60: 100%  median 182.5 min  nearest: Central Utah Counseling Center
+      hc       >30: 100%  >60: 100%  median 136.1 min  nearest: Wendover Community Health Center
+  48301 Loving County, TX (smallest population): women 0
+      ob_hosp  >30: nan%  >60: nan%  median nan min  nearest: REEVES REGIONAL HEALTH
+      ppw_bh   >30: nan%  >60: nan%  median nan min  nearest: LifeHouse Carlsbad
+      hc       >30: nan%  >60: nan%  median nan min  nearest: PMS - LOVING HEALTH CTR
+  30033 Garfield County, MT (frontier): women 169
+      ob_hosp  >30: 100%  >60: 100%  median 129.7 min  nearest: HOLY ROSARY HOSPITAL
+      ppw_bh   >30: 100%  >60: 100%  median 210.6 min  nearest: Rimrock
+      hc       >30: 100%  >60: 100%  median 126.9 min  nearest: One Health - Milligan
+  02290 Yukon-Koyukuk Census Area, AK (off-road villages): women 859
+      ob_hosp  >30: 100%  >60: 100%  median nan min  nearest: FAIRBANKS MEMORIAL HOSPITAL
+      ppw_bh   >30: 100%  >60: 100%  median nan min  nearest: Railbelt Mental Health and Addictions
+      hc       >30: 83%  >60: 80%  median nan min  nearest: Edgar Nollner Health Center
+  15005 Kalawao County, HI (no road connection): women 7
+      ob_hosp  >30: 100%  >60: 0%  median 50.3 min  nearest: MOLOKAI GENERAL HOSPITAL
+      ppw_bh   >30: 100%  >60: 100%  median nan min  nearest: nan
+      hc       >30: 0%  >60: 0%  median 29.0 min  nearest: MCHC Temporary Dental Location
+  36061 New York County, NY (dense metro): women 391,316
+      ob_hosp  >30: 0%  >60: 0%  median 3.4 min  nearest: HARLEM HOSPITAL CENTER
+      ppw_bh   >30: 0%  >60: 0%  median 2.4 min  nearest: Samaritan Daytop Village Inc
+      hc       >30: 0%  >60: 0%  median 1.6 min  nearest: 53rd Street Health Center
+
+8. THRESHOLD COUNTS USED IN DOCUMENTS
+  All counties                     counties  3144  women   65,970,543  ob_hosp >30 9.0% >60 1.0%  ppw_bh >30 10.8% >60 2.2%  hc >30 5.5% >60 0.8%
+  Metro                            counties  1164  women   57,923,236  ob_hosp >30 4.9% >60 0.2%  ppw_bh >30 5.5% >60 0.4%  hc >30 2.8% >60 0.1%
+  Rural (nonmetro, not frontier)   counties  1563  women    7,624,162  ob_hosp >30 37.0% >60 5.0%  ppw_bh >30 48.0% >60 13.3%  hc >30 23.4% >60 4.1%
+  Frontier                         counties   417  women      423,145  ob_hosp >30 63.4% >60 34.7%  ppw_bh >30 74.6% >60 53.4%  hc >30 55.7% >60 33.6%
+  Rural or frontier                counties  1980  women    8,047,307  ob_hosp >30 38.4% >60 6.6%  ppw_bh >30 49.4% >60 15.4%  hc >30 25.1% >60 5.6%

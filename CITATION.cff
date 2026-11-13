@@ -1,0 +1,37 @@
+cff-version: 1.2.0
+message: "If you use these drive-time measures, please cite them as below. Each release has its own DOI on Zenodo."
+type: dataset
+title: "Rural and Frontier Perinatal Care Access Layer: County Drive-Time Measures to Perinatal Care Service Types"
+version: "0.1.0"
+doi: "[DOI pending]"
+date-released: "[release date pending]"
+authors:
+  - family-names: "Emesobum"
+    given-names: "Munachimso A."
+    orcid: "https://orcid.org/0009-0002-7506-2153"
+    email: "emesobumm@gmail.com"
+    affiliation: "Independent Researcher, Nevada, USA"
+license: CC-BY-4.0
+repository-code: "https://github.com/memesobum/perinatal-access-layer"
+abstract: >-
+  Open drive-time estimates from population-weighted Census block group centers to the nearest hospital providing
+  labor and delivery care, the nearest substance use treatment facility serving pregnant or postpartum women, and
+  the nearest HRSA health center site, computed on OpenStreetMap roads and summarized for every U.S. county as the
+  share of women aged 15 to 44 beyond 30 and 60 minutes, with rural and frontier results.
+keywords:
+  - perinatal behavioral health
+  - travel time
+  - geographic access
+  - obstetric care
+  - substance use treatment
+  - rural health
+  - frontier
+  - OpenStreetMap
+references:
+  - type: dataset
+    title: "U.S. County Perinatal Behavioral Health Need and Capacity Panel"
+    authors:
+      - family-names: "Emesobum"
+        given-names: "Munachimso A."
+    doi: "10.5281/zenodo.24025395"
+    version: "0.1.0"

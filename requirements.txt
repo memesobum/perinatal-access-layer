@@ -1,0 +1,12 @@
+# Python 3.11 or newer. Also needs the osmium command-line tool (Ubuntu/Debian: sudo apt install osmium-tool).
+pandas>=2.2
+numpy>=1.26
+scipy>=1.11
+requests>=2.31
+geopandas>=1.0
+pyogrio>=0.7
+shapely>=2.0
+pyarrow>=14
+osmium>=4.0
+duckdb>=1.1
+matplotlib>=3.8

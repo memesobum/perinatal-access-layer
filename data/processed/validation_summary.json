@@ -1,0 +1,90 @@
+{
+ "pairs_sampled": 450,
+ "pairs_compared": 450,
+ "osrm_server": "router.project-osrm.org (OSRM car profile, OpenStreetMap)",
+ "queried_on": "2026-11-13",
+ "all": {
+  "n": 450,
+  "median_project_min": 22.4,
+  "median_osrm_min": 22.3,
+  "median_diff_min": -0.2,
+  "mean_abs_diff_min": 1.9,
+  "median_ratio": 0.992,
+  "share_within_20pct_or_5min": 0.973,
+  "pearson_r": 0.974,
+  "agree_gt30": 0.989,
+  "agree_gt60": 0.991
+ },
+ "type_hc": {
+  "n": 150,
+  "median_project_min": 16.4,
+  "median_osrm_min": 17.1,
+  "median_diff_min": -0.3,
+  "mean_abs_diff_min": 1.9,
+  "median_ratio": 0.981,
+  "share_within_20pct_or_5min": 0.96,
+  "pearson_r": 0.992,
+  "agree_gt30": 0.993,
+  "agree_gt60": 0.987
+ },
+ "type_ob_hosp": {
+  "n": 150,
+  "median_project_min": 24.1,
+  "median_osrm_min": 24.0,
+  "median_diff_min": -0.1,
+  "mean_abs_diff_min": 1.5,
+  "median_ratio": 0.998,
+  "share_within_20pct_or_5min": 0.98,
+  "pearson_r": 0.99,
+  "agree_gt30": 0.98,
+  "agree_gt60": 0.987
+ },
+ "type_ppw_bh": {
+  "n": 150,
+  "median_project_min": 29.6,
+  "median_osrm_min": 26.7,
+  "median_diff_min": -0.3,
+  "mean_abs_diff_min": 2.4,
+  "median_ratio": 0.994,
+  "share_within_20pct_or_5min": 0.98,
+  "pearson_r": 0.948,
+  "agree_gt30": 0.993,
+  "agree_gt60": 1.0
+ },
+ "rurality_frontier": {
+  "n": 150,
+  "median_project_min": 57.9,
+  "median_osrm_min": 58.1,
+  "median_diff_min": -0.1,
+  "mean_abs_diff_min": 3.9,
+  "median_ratio": 0.998,
+  "share_within_20pct_or_5min": 0.933,
+  "pearson_r": 0.948,
+  "agree_gt30": 0.987,
+  "agree_gt60": 0.98
+ },
+ "rurality_metro": {
+  "n": 150,
+  "median_project_min": 8.4,
+  "median_osrm_min": 9.2,
+  "median_diff_min": -0.5,
+  "mean_abs_diff_min": 0.7,
+  "median_ratio": 0.946,
+  "share_within_20pct_or_5min": 1.0,
+  "pearson_r": 0.995,
+  "agree_gt30": 0.993,
+  "agree_gt60": 1.0
+ },
+ "rurality_rural": {
+  "n": 150,
+  "median_project_min": 29.2,
+  "median_osrm_min": 29.2,
+  "median_diff_min": 0.1,
+  "mean_abs_diff_min": 1.1,
+  "median_ratio": 1.003,
+  "share_within_20pct_or_5min": 0.987,
+  "pearson_r": 0.994,
+  "agree_gt30": 0.987,
+  "agree_gt60": 0.993
+ }
+}

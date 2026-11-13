@@ -1,0 +1,25 @@
+{
+ "vertices": 24382996,
+ "arcs": 55958901,
+ "components": 65673,
+ "share_vertices_in_big_components": 0.9928387389310157,
+ "main_networks": 71,
+ "share_vertices_in_main": 0.9917235355327131,
+ "bg_not_connected": 62,
+ "women_not_connected": 5104.0,
+ "sites_not_routed": {
+  "hc": 63,
+  "mh_any": 1,
+  "ob_clin": 92,
+  "ob_hosp": 1,
+  "ob_hosp_upper": 1,
+  "ppw_bh": 1
+ },
+ "km_road": 8054826.9853515625,
+ "sites_routed_ob_hosp": 2423,
+ "sites_routed_ob_hosp_upper": 3086,
+ "sites_routed_ob_clin": 9051,
+ "sites_routed_ppw_bh": 4584,
+ "sites_routed_mh_any": 12592,
+ "sites_routed_hc": 11706
+}
