@@ -1,6 +1,6 @@
 # Rural and Frontier Perinatal Care Access Layer
 
-**Status:** v0.1.0, verified by the author 2026-11-13 (review fixes applied the same day; see docs/CHANGELOG.md) | **DOI:** [DOI pending] | **Maintainer:** Munachimso A. Emesobum, ORCID [0009-0002-7506-2153](https://orcid.org/0009-0002-7506-2153) | **License:** data and documents CC BY 4.0, code MIT; road-derived values © OpenStreetMap contributors (ODbL)
+**Status:** v0.1.0, verified by the author 2026-11-13 (review fixes applied the same day; see docs/CHANGELOG.md) | **DOI:** minted by Zenodo for each GitHub release (see the DOI badge and the Zenodo record linked from https://github.com/memesobum/perinatal-access-layer) | **Maintainer:** Munachimso A. Emesobum, ORCID [0009-0002-7506-2153](https://orcid.org/0009-0002-7506-2153) | **License:** data and documents CC BY 4.0, code MIT; road-derived values © OpenStreetMap contributors (ODbL)
 
 **In plain terms:** For every U.S. county, this table shows how many women aged 15 to 44 live more than a 30-minute or 60-minute drive from a hospital that delivers babies, from a substance use treatment program that serves pregnant or postpartum women, and from a community health center. Rural and frontier counties are reported separately. Planners can use it to see which counties are cut off from perinatal care even when a facility exists somewhere in the region.
 
@@ -94,7 +94,7 @@ See [docs/LIMITATIONS.md](docs/LIMITATIONS.md) before using or citing anything h
 
 ## Citation and authorship
 
-See `CITATION.cff`. DOI: [DOI pending].
+See `CITATION.cff`. The DOI is minted by Zenodo when the release is published; it is listed on the repository page.
 
 Munachimso A. Emesobum made every measurement decision and checked results against his Nevada county maps. Claude (Anthropic) assisted with code and data handling.
 
