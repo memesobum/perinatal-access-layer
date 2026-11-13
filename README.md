@@ -1,6 +1,6 @@
 # Rural and Frontier Perinatal Care Access Layer
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24206837.svg)](https://doi.org/10.5281/zenodo.24206837)
+[![Zenodo DOI badge](https://zenodo.org/badge/DOI/10.5281/zenodo.24206837.svg)](https://doi.org/10.5281/zenodo.24206837)
 
 **Status:** Released v0.1.0 on 2026-11-13 (verified by the author; see docs/CHANGELOG.md) | **DOI:** [10.5281/zenodo.24206837](https://doi.org/10.5281/zenodo.24206837) | **Repository:** https://github.com/memesobum/perinatal-access-layer | **Maintainer:** Munachimso A. Emesobum, ORCID [0009-0002-7506-2153](https://orcid.org/0009-0002-7506-2153) | **License:** data and documents CC BY 4.0, code MIT; road-derived values © OpenStreetMap contributors (ODbL)
 
