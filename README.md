@@ -23,7 +23,7 @@ Counting facilities inside county lines does not show how far a family must trav
 | `data/processed/validation_osrm_sample.csv`, `validation_summary.json` | The 450-trip check against the OSRM routing engine |
 | `data/processed/qa_report.txt` | Quality report. Read it first |
 | `report/figures/`, `report/stats.json` | Maps and charts; every number quoted anywhere |
-| `paper/main.pdf` | Draft preprint |
+| `paper/main.pdf` | Preprint (13 pages; how it is built: `paper/README.md`) |
 
 The six care types are:
 - `ob_hosp`, a delivering hospital, confirmed by CMS (headline)

@@ -15,3 +15,8 @@ python3 code/07_validate.py       # check against OSRM (uses saved results if pr
 python3 code/08_qa.py             # quality report
 python3 code/09_figures.py        # figures and stats.json
 echo "Done. Read data/processed/qa_report.txt first."
+# Detailed preprint (paper/main.pdf): statistics, figures, number macros, then LaTeX
+python3 paper/analysis.py
+python3 paper/figures.py
+python3 paper/make_numbers.py
+(cd paper && latexmk -pdf -interaction=nonstopmode -quiet main.tex)

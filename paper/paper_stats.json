@@ -1,0 +1,1368 @@
+{
+ "dist": {
+  "ob_hosp|All": {
+   "median": 10.46,
+   "p75": 17.35,
+   "p90": 28.6,
+   "p95": 37.99,
+   "p99": 59.69,
+   "mean_reachable": 13.960961567582597,
+   "within15": 0.6891252509472295,
+   "within30": 0.9102074087824319,
+   "within60": 0.990212677194426,
+   "within90": 0.9981294378613801,
+   "within120": 0.9993874387239772,
+   "women_gt60": 645675.0,
+   "women_gt30": 5923666.0,
+   "women": 65970543.0
+  },
+  "ob_hosp|Metro": {
+   "median": 9.91,
+   "p75": 15.45,
+   "p90": 23.48,
+   "p95": 29.83,
+   "p99": 45.13,
+   "mean_reachable": 12.198550537797777,
+   "within15": 0.7361297286636402,
+   "within30": 0.9510120256402802,
+   "within60": 0.9979201783546762,
+   "within90": 0.9997682277281608,
+   "within120": 0.9999290958122574,
+   "women_gt60": 120470.0,
+   "women_gt30": 2837542.0,
+   "women": 57923236.0
+  },
+  "ob_hosp|Rural": {
+   "median": 22.98,
+   "p75": 37.42,
+   "p90": 50.95,
+   "p95": 60.0,
+   "p99": 82.34,
+   "mean_reachable": 25.622334038219197,
+   "within15": 0.3563432938597055,
+   "within30": 0.6299653653739257,
+   "within60": 0.9500095879389762,
+   "within90": 0.9939615658743872,
+   "within120": 0.9991390529214883,
+   "women_gt60": 381135.0,
+   "women_gt30": 2821204.0,
+   "women": 7624162.0
+  },
+  "ob_hosp|Frontier": {
+   "median": 43.34,
+   "p75": 71.12,
+   "p90": 105.56,
+   "p95": 139.87,
+   "p99": Infinity,
+   "mean_reachable": 46.25716657742308,
+   "within15": 0.2508170957945858,
+   "within30": 0.37392619551217665,
+   "within60": 0.6595256945018847,
+   "within90": 0.8488957685899633,
+   "within120": 0.9297167637571045,
+   "women_gt60": 144070.0,
+   "women_gt30": 264920.0,
+   "women": 423145.0
+  },
+  "ob_hosp_upper|All": {
+   "median": 10.22,
+   "p75": 16.78,
+   "p90": 26.69,
+   "p95": 34.37,
+   "p99": 51.7,
+   "mean_reachable": 13.192172618102719,
+   "within15": 0.7017205088034518,
+   "within30": 0.9259344431953516,
+   "within60": 0.9953888055764525,
+   "within90": 0.9991916392138837,
+   "within120": 0.9996480247252171,
+   "women_gt60": 304203.0,
+   "women_gt30": 4886145.0,
+   "women": 65970543.0
+  },
+  "ob_hosp_upper|Metro": {
+   "median": 9.76,
+   "p75": 15.22,
+   "p90": 22.92,
+   "p95": 28.7,
+   "p99": 42.3,
+   "mean_reachable": 11.902744221937247,
+   "within15": 0.7434411123024963,
+   "within30": 0.9572189475049356,
+   "within60": 0.9989071743160206,
+   "within90": 0.9998843641953982,
+   "within120": 0.9999617942616328,
+   "women_gt60": 63300.0,
+   "women_gt30": 2478017.0,
+   "women": 57923236.0
+  },
+  "ob_hosp_upper|Rural": {
+   "median": 19.79,
+   "p75": 32.39,
+   "p90": 43.86,
+   "p95": 51.71,
+   "p99": 69.23,
+   "mean_reachable": 22.121628782331978,
+   "within15": 0.4006549178781878,
+   "within30": 0.7069465470434653,
+   "within60": 0.9772005106921915,
+   "within90": 0.9976211156058856,
+   "within120": 0.9993886541235614,
+   "women_gt60": 173827.0,
+   "women_gt30": 2234287.0,
+   "women": 7624162.0
+  },
+  "ob_hosp_upper|Frontier": {
+   "median": 21.47,
+   "p75": 46.92,
+   "p90": 72.53,
+   "p95": 102.47,
+   "p99": Infinity,
+   "mean_reachable": 29.295471985243257,
+   "within15": 0.4152477283200794,
+   "within30": 0.5891691973200676,
+   "within60": 0.8414822342223115,
+   "within90": 0.9326637441066301,
+   "within120": 0.9613702158834442,
+   "women_gt60": 67076.0,
+   "women_gt30": 173841.0,
+   "women": 423145.0
+  },
+  "ob_clin|All": {
+   "median": 7.35,
+   "p75": 12.81,
+   "p90": 22.63,
+   "p95": 31.07,
+   "p99": 53.96,
+   "mean_reachable": 10.71434626719375,
+   "within15": 0.8010750949859545,
+   "within30": 0.9456259439913963,
+   "within60": 0.9929490954773557,
+   "within90": 0.9980431417701079,
+   "within120": 0.9991911844654666,
+   "women_gt60": 465152.0,
+   "women_gt30": 3587086.0,
+   "women": 65970543.0
+  },
+  "ob_clin|Metro": {
+   "median": 6.68,
+   "p75": 10.83,
+   "p90": 17.28,
+   "p95": 22.76,
+   "p99": 36.55,
+   "mean_reachable": 8.723849953557751,
+   "within15": 0.8651275284412632,
+   "within30": 0.9789020420060786,
+   "within60": 0.99911767705796,
+   "within90": 0.999846158457031,
+   "within120": 0.9999524888423016,
+   "women_gt60": 51107.0,
+   "women_gt30": 1222062.0,
+   "women": 57923236.0
+  },
+  "ob_clin|Rural": {
+   "median": 20.17,
+   "p75": 30.86,
+   "p90": 43.34,
+   "p95": 52.36,
+   "p99": 73.59,
+   "mean_reachable": 23.09224030434531,
+   "within15": 0.35510000967975236,
+   "within30": 0.7341803597562591,
+   "within60": 0.9719720016442462,
+   "within90": 0.9967226562079872,
+   "within120": 0.9993521910998219,
+   "women_gt60": 213690.0,
+   "women_gt30": 2026652.0,
+   "women": 7624162.0
+  },
+  "ob_clin|Frontier": {
+   "median": 57.25,
+   "p75": 86.31,
+   "p90": 126.03,
+   "p95": 186.97,
+   "p99": Infinity,
+   "mean_reachable": 62.26754308540244,
+   "within15": 0.06861241418426307,
+   "within30": 0.2003403088775715,
+   "within60": 0.5265098252372118,
+   "within90": 0.7750251095960013,
+   "within120": 0.8920771839440381,
+   "women_gt60": 200355.0,
+   "women_gt30": 338372.0,
+   "women": 423145.0
+  },
+  "ppw_bh|All": {
+   "median": 9.37,
+   "p75": 17.36,
+   "p90": 31.3,
+   "p95": 44.25,
+   "p99": 76.05,
+   "mean_reachable": 14.307031147690065,
+   "within15": 0.6988706762653144,
+   "within30": 0.8917456992888477,
+   "within60": 0.9778538581984992,
+   "within90": 0.9943967264298552,
+   "within120": 0.9978498736928693,
+   "women_gt60": 1460993.0,
+   "women_gt30": 7141595.0,
+   "women": 65970543.0
+  },
+  "ppw_bh|Metro": {
+   "median": 8.61,
+   "p75": 14.71,
+   "p90": 23.76,
+   "p95": 30.92,
+   "p99": 48.81,
+   "mean_reachable": 11.518589688921011,
+   "within15": 0.7574116542798127,
+   "within30": 0.9453544688007417,
+   "within60": 0.9961774062485045,
+   "within90": 0.9996958042882825,
+   "within120": 0.999887558077729,
+   "women_gt60": 221417.0,
+   "women_gt30": 3165246.0,
+   "women": 57923236.0
+  },
+  "ppw_bh|Rural": {
+   "median": 28.73,
+   "p75": 47.0,
+   "p90": 65.63,
+   "p95": 79.16,
+   "p99": 114.19,
+   "mean_reachable": 32.775609124749,
+   "within15": 0.283719968174863,
+   "within30": 0.5198629042772176,
+   "within60": 0.8670585698467582,
+   "within90": 0.9718390034209662,
+   "within120": 0.9925604938614893,
+   "women_gt60": 1013567.0,
+   "women_gt30": 3660643.0,
+   "women": 7624162.0
+  },
+  "ppw_bh|Frontier": {
+   "median": 63.84,
+   "p75": 105.32,
+   "p90": 149.5,
+   "p95": Infinity,
+   "p99": Infinity,
+   "mean_reachable": 66.45238291890868,
+   "within15": 0.16546810195086792,
+   "within30": 0.2539058715097662,
+   "within60": 0.4658828533954082,
+   "within90": 0.6754611303453899,
+   "within120": 0.8142197119190822,
+   "women_gt60": 226009.0,
+   "women_gt30": 315706.0,
+   "women": 423145.0
+  },
+  "mh_any|All": {
+   "median": 6.62,
+   "p75": 12.11,
+   "p90": 21.02,
+   "p95": 28.3,
+   "p99": 48.11,
+   "mean_reachable": 9.728058523104131,
+   "within15": 0.8169138459266585,
+   "within30": 0.9571454489922874,
+   "within60": 0.9950142293053431,
+   "within90": 0.9981845230529632,
+   "within120": 0.9989095284542375,
+   "women_gt60": 328914.0,
+   "women_gt30": 2827138.0,
+   "women": 65970543.0
+  },
+  "mh_any|Metro": {
+   "median": 6.24,
+   "p75": 10.77,
+   "p90": 17.62,
+   "p95": 23.0,
+   "p99": 36.08,
+   "mean_reachable": 8.447179424233711,
+   "within15": 0.8604166555887865,
+   "within30": 0.9792742587793265,
+   "within60": 0.9987996009062753,
+   "within90": 0.9993742925550637,
+   "within120": 0.9994616495528669,
+   "women_gt60": 69531.0,
+   "women_gt30": 1200502.0,
+   "women": 57923236.0
+  },
+  "mh_any|Rural": {
+   "median": 14.59,
+   "p75": 26.03,
+   "p90": 38.16,
+   "p95": 46.87,
+   "p99": 72.68,
+   "mean_reachable": 18.095259055352027,
+   "within15": 0.51060090276151,
+   "within30": 0.8129362938510488,
+   "within60": 0.9796498290566229,
+   "within90": 0.9947026309252086,
+   "within120": 0.997358135884311,
+   "women_gt60": 155153.0,
+   "women_gt30": 1426204.0,
+   "women": 7624162.0
+  },
+  "mh_any|Frontier": {
+   "median": 26.78,
+   "p75": 59.22,
+   "p90": 90.85,
+   "p95": 118.96,
+   "p99": Infinity,
+   "mean_reachable": 35.23425310566571,
+   "within15": 0.38102541681929364,
+   "within30": 0.5263278545179548,
+   "within60": 0.7536778172966714,
+   "within90": 0.8980562218624821,
+   "within120": 0.9512838388731994,
+   "women_gt60": 104230.0,
+   "women_gt30": 200432.0,
+   "women": 423145.0
+  },
+  "hc|All": {
+   "median": 7.47,
+   "p75": 14.02,
+   "p90": 23.16,
+   "p95": 31.09,
+   "p99": 55.47,
+   "mean_reachable": 10.932440512048421,
+   "within15": 0.7739446528430121,
+   "within30": 0.9451836556809908,
+   "within60": 0.9919057510258783,
+   "within90": 0.9976213171384689,
+   "within120": 0.9990962936291126,
+   "women_gt60": 533982.0,
+   "women_gt30": 3616264.0,
+   "women": 65970543.0
+  },
+  "hc|Metro": {
+   "median": 6.99,
+   "p75": 12.53,
+   "p90": 19.58,
+   "p95": 25.09,
+   "p99": 39.03,
+   "mean_reachable": 9.392546647183005,
+   "within15": 0.8173639331890918,
+   "within30": 0.9724871207126619,
+   "within60": 0.9986288749475254,
+   "within90": 0.9999017147453572,
+   "within120": 0.9999719456281759,
+   "women_gt60": 79420.0,
+   "women_gt30": 1593635.0,
+   "women": 57923236.0
+  },
+  "hc|Rural": {
+   "median": 16.19,
+   "p75": 28.94,
+   "p90": 43.67,
+   "p95": 56.02,
+   "p99": 92.24,
+   "mean_reachable": 20.80302268193382,
+   "within15": 0.46979025366984595,
+   "within30": 0.7656344395620135,
+   "within60": 0.9591860718594385,
+   "within90": 0.989319613093216,
+   "within120": 0.9958492487436652,
+   "women_gt60": 311172.0,
+   "women_gt30": 1786841.0,
+   "women": 7624162.0
+  },
+  "hc|Frontier": {
+   "median": 38.74,
+   "p75": 70.86,
+   "p90": 108.5,
+   "p95": 126.22,
+   "p99": Infinity,
+   "mean_reachable": 44.74529947290449,
+   "within15": 0.31059802195464914,
+   "within30": 0.44277257204977016,
+   "within60": 0.6611327086459724,
+   "within90": 0.8350423613654894,
+   "within120": 0.9377352916848835,
+   "women_gt60": 143390.0,
+   "women_gt30": 235788.0,
+   "women": 423145.0
+  }
+ },
+ "sites": {
+  "hc": 11769,
+  "mh_any": 12637,
+  "ob_clin": 9343,
+  "ob_hosp": 2424,
+  "ob_hosp_upper": 3087,
+  "ppw_bh": 4600
+ },
+ "sites_geo": {
+  "hc": {
+   "census_geocoder_exact": 0,
+   "census_geocoder_nonexact": 0,
+   "cms_birthing_friendly_geocode": 0,
+   "findtreatment_coordinates": 0,
+   "hrsa_coordinates": 11768,
+   "town_interior_point": 0,
+   "unplaced": 0,
+   "unplaced_state_mismatch": 0,
+   "unplaced_zip_not_a_zcta": 0,
+   "zip_interior_point": 1,
+   "zip_interior_point_after_state_mismatch": 0
+  },
+  "mh_any": {
+   "census_geocoder_exact": 0,
+   "census_geocoder_nonexact": 0,
+   "cms_birthing_friendly_geocode": 0,
+   "findtreatment_coordinates": 11738,
+   "hrsa_coordinates": 0,
+   "town_interior_point": 0,
+   "unplaced": 44,
+   "unplaced_state_mismatch": 1,
+   "unplaced_zip_not_a_zcta": 0,
+   "zip_interior_point": 851,
+   "zip_interior_point_after_state_mismatch": 3
+  },
+  "ob_clin": {
+   "census_geocoder_exact": 0,
+   "census_geocoder_nonexact": 0,
+   "cms_birthing_friendly_geocode": 0,
+   "findtreatment_coordinates": 0,
+   "hrsa_coordinates": 0,
+   "town_interior_point": 0,
+   "unplaced": 0,
+   "unplaced_state_mismatch": 0,
+   "unplaced_zip_not_a_zcta": 200,
+   "zip_interior_point": 9143,
+   "zip_interior_point_after_state_mismatch": 0
+  },
+  "ob_hosp": {
+   "census_geocoder_exact": 1706,
+   "census_geocoder_nonexact": 30,
+   "cms_birthing_friendly_geocode": 655,
+   "findtreatment_coordinates": 0,
+   "hrsa_coordinates": 0,
+   "town_interior_point": 33,
+   "unplaced": 0,
+   "unplaced_state_mismatch": 0,
+   "unplaced_zip_not_a_zcta": 0,
+   "zip_interior_point": 0,
+   "zip_interior_point_after_state_mismatch": 0
+  },
+  "ob_hosp_upper": {
+   "census_geocoder_exact": 2115,
+   "census_geocoder_nonexact": 191,
+   "cms_birthing_friendly_geocode": 655,
+   "findtreatment_coordinates": 0,
+   "hrsa_coordinates": 0,
+   "town_interior_point": 125,
+   "unplaced": 0,
+   "unplaced_state_mismatch": 0,
+   "unplaced_zip_not_a_zcta": 0,
+   "zip_interior_point": 1,
+   "zip_interior_point_after_state_mismatch": 0
+  },
+  "ppw_bh": {
+   "census_geocoder_exact": 0,
+   "census_geocoder_nonexact": 0,
+   "cms_birthing_friendly_geocode": 0,
+   "findtreatment_coordinates": 4334,
+   "hrsa_coordinates": 0,
+   "town_interior_point": 0,
+   "unplaced": 15,
+   "unplaced_state_mismatch": 0,
+   "unplaced_zip_not_a_zcta": 0,
+   "zip_interior_point": 249,
+   "zip_interior_point_after_state_mismatch": 2
+  }
+ },
+ "cms_status": {
+  "confirmed_sm7": 2289,
+  "no_labor_delivery": 1334,
+  "not_reported": 837,
+  "confirmed_pc_measures": 135
+ },
+ "upper_added_by_type": {
+  "Critical Access Hospitals": 599,
+  "Acute Care Hospitals": 64
+ },
+ "route": {
+  "vertices": 24382996,
+  "arcs": 55958901,
+  "components": 65673,
+  "share_vertices_in_big_components": 0.9928387389310157,
+  "main_networks": 71,
+  "share_vertices_in_main": 0.9917235355327131,
+  "bg_not_connected": 321,
+  "women_not_connected": 7187.0,
+  "bg_separate_network": 259,
+  "women_separate_network": 2083.0,
+  "sites_not_routed": {
+   "hc": 63,
+   "mh_any": 1,
+   "ob_clin": 92,
+   "ppw_bh": 1
+  },
+  "km_road_sum_of_regional_files": 8054826.9853515625,
+  "km_road": 7977020.5,
+  "km_ferry": 15239.59375,
+  "sites_routed_ob_hosp": 2424,
+  "sites_routed_ob_hosp_upper": 3087,
+  "sites_routed_ob_clin": 9051,
+  "sites_routed_ppw_bh": 4584,
+  "sites_routed_mh_any": 12591,
+  "sites_routed_hc": 11706
+ },
+ "origins": {
+  "bg_matched": 239741.0,
+  "bg_center_only": 39.0,
+  "bg_acs_only": 1.0,
+  "women_acs_only": 0.0,
+  "women_total": 65970543.0,
+  "bg_zero_women": 3759.0
+ },
+ "validation": {
+  "pairs_sampled": 450,
+  "pairs_compared": 450,
+  "osrm_server": "router.project-osrm.org (OSRM car profile, OpenStreetMap)",
+  "queried_on": "2026-11-13",
+  "all": {
+   "n": 450,
+   "median_project_min": 20.6,
+   "median_osrm_min": 20.7,
+   "median_diff_min": -0.2,
+   "mean_abs_diff_min": 1.4,
+   "median_ratio": 0.992,
+   "share_within_20pct_or_5min": 0.982,
+   "pearson_r": 0.996,
+   "agree_gt30": 0.987,
+   "agree_gt60": 0.991
+  },
+  "type_hc": {
+   "n": 150,
+   "median_project_min": 15.6,
+   "median_osrm_min": 15.3,
+   "median_diff_min": -0.2,
+   "mean_abs_diff_min": 1.2,
+   "median_ratio": 0.988,
+   "share_within_20pct_or_5min": 0.98,
+   "pearson_r": 0.997,
+   "agree_gt30": 0.987,
+   "agree_gt60": 1.0
+  },
+  "type_ob_hosp": {
+   "n": 150,
+   "median_project_min": 25.5,
+   "median_osrm_min": 24.2,
+   "median_diff_min": -0.2,
+   "mean_abs_diff_min": 1.5,
+   "median_ratio": 0.992,
+   "share_within_20pct_or_5min": 0.973,
+   "pearson_r": 0.991,
+   "agree_gt30": 0.987,
+   "agree_gt60": 0.98
+  },
+  "type_ppw_bh": {
+   "n": 150,
+   "median_project_min": 26.3,
+   "median_osrm_min": 26.5,
+   "median_diff_min": -0.2,
+   "mean_abs_diff_min": 1.3,
+   "median_ratio": 0.995,
+   "share_within_20pct_or_5min": 0.993,
+   "pearson_r": 0.997,
+   "agree_gt30": 0.987,
+   "agree_gt60": 0.993
+  },
+  "rurality_frontier": {
+   "n": 150,
+   "median_project_min": 55.7,
+   "median_osrm_min": 55.9,
+   "median_diff_min": -0.0,
+   "mean_abs_diff_min": 2.1,
+   "median_ratio": 0.998,
+   "share_within_20pct_or_5min": 0.967,
+   "pearson_r": 0.993,
+   "agree_gt30": 0.987,
+   "agree_gt60": 0.987
+  },
+  "rurality_metro": {
+   "n": 150,
+   "median_project_min": 9.1,
+   "median_osrm_min": 9.8,
+   "median_diff_min": -0.5,
+   "mean_abs_diff_min": 0.8,
+   "median_ratio": 0.94,
+   "share_within_20pct_or_5min": 1.0,
+   "pearson_r": 0.996,
+   "agree_gt30": 0.987,
+   "agree_gt60": 0.993
+  },
+  "rurality_rural": {
+   "n": 150,
+   "median_project_min": 27.0,
+   "median_osrm_min": 26.6,
+   "median_diff_min": 0.1,
+   "mean_abs_diff_min": 1.2,
+   "median_ratio": 1.003,
+   "share_within_20pct_or_5min": 0.98,
+   "pearson_r": 0.993,
+   "agree_gt30": 0.987,
+   "agree_gt60": 0.993
+  }
+ },
+ "rurality": {
+  "All counties": {
+   "counties": 3144,
+   "women_15_44": 65970543.0,
+   "ob_hosp_share_gt30": 0.0898,
+   "ob_hosp_counties_majority_gt30": 1410,
+   "ob_hosp_share_gt60": 0.0098,
+   "ob_hosp_counties_majority_gt60": 305,
+   "ob_hosp_women_unreachable": 19058.0,
+   "ob_hosp_upper_share_gt30": 0.0741,
+   "ob_hosp_upper_counties_majority_gt30": 939,
+   "ob_hosp_upper_share_gt60": 0.0046,
+   "ob_hosp_upper_counties_majority_gt60": 125,
+   "ob_hosp_upper_women_unreachable": 14865.0,
+   "ob_clin_share_gt30": 0.0544,
+   "ob_clin_counties_majority_gt30": 1099,
+   "ob_clin_share_gt60": 0.0071,
+   "ob_clin_counties_majority_gt60": 310,
+   "ob_clin_women_unreachable": 19906.0,
+   "ppw_bh_share_gt30": 0.1083,
+   "ppw_bh_counties_majority_gt30": 1558,
+   "ppw_bh_share_gt60": 0.0221,
+   "ppw_bh_counties_majority_gt60": 568,
+   "ppw_bh_women_unreachable": 37307.0,
+   "mh_any_share_gt30": 0.0429,
+   "mh_any_counties_majority_gt30": 709,
+   "mh_any_share_gt60": 0.005,
+   "mh_any_counties_majority_gt60": 188,
+   "mh_any_women_unreachable": 56336.0,
+   "hc_share_gt30": 0.0548,
+   "hc_counties_majority_gt30": 820,
+   "hc_share_gt60": 0.0081,
+   "hc_counties_majority_gt60": 275,
+   "hc_women_unreachable": 15843.0
+  },
+  "Metro": {
+   "counties": 1164,
+   "women_15_44": 57923236.0,
+   "ob_hosp_share_gt30": 0.049,
+   "ob_hosp_counties_majority_gt30": 275,
+   "ob_hosp_share_gt60": 0.0021,
+   "ob_hosp_counties_majority_gt60": 5,
+   "ob_hosp_women_unreachable": 1836.0,
+   "ob_hosp_upper_share_gt30": 0.0428,
+   "ob_hosp_upper_counties_majority_gt30": 210,
+   "ob_hosp_upper_share_gt60": 0.0011,
+   "ob_hosp_upper_counties_majority_gt60": 2,
+   "ob_hosp_upper_women_unreachable": 665.0,
+   "ob_clin_share_gt30": 0.0211,
+   "ob_clin_counties_majority_gt30": 144,
+   "ob_clin_share_gt60": 0.0009,
+   "ob_clin_counties_majority_gt60": 2,
+   "ob_clin_women_unreachable": 1836.0,
+   "ppw_bh_share_gt30": 0.0546,
+   "ppw_bh_counties_majority_gt30": 252,
+   "ppw_bh_share_gt60": 0.0038,
+   "ppw_bh_counties_majority_gt60": 12,
+   "ppw_bh_women_unreachable": 3284.0,
+   "mh_any_share_gt30": 0.0207,
+   "mh_any_counties_majority_gt30": 77,
+   "mh_any_share_gt60": 0.0012,
+   "mh_any_counties_majority_gt60": 2,
+   "mh_any_women_unreachable": 30510.0,
+   "hc_share_gt30": 0.0275,
+   "hc_counties_majority_gt30": 110,
+   "hc_share_gt60": 0.0014,
+   "hc_counties_majority_gt60": 6,
+   "hc_women_unreachable": 1196.0
+  },
+  "Rural (nonmetro, not frontier)": {
+   "counties": 1563,
+   "women_15_44": 7624162.0,
+   "ob_hosp_share_gt30": 0.37,
+   "ob_hosp_counties_majority_gt30": 790,
+   "ob_hosp_share_gt60": 0.05,
+   "ob_hosp_counties_majority_gt60": 110,
+   "ob_hosp_women_unreachable": 3070.0,
+   "ob_hosp_upper_share_gt30": 0.2931,
+   "ob_hosp_upper_counties_majority_gt30": 520,
+   "ob_hosp_upper_share_gt60": 0.0228,
+   "ob_hosp_upper_counties_majority_gt60": 35,
+   "ob_hosp_upper_women_unreachable": 3070.0,
+   "ob_clin_share_gt30": 0.2658,
+   "ob_clin_counties_majority_gt30": 581,
+   "ob_clin_share_gt60": 0.028,
+   "ob_clin_counties_majority_gt60": 65,
+   "ob_clin_women_unreachable": 979.0,
+   "ppw_bh_share_gt30": 0.4801,
+   "ppw_bh_counties_majority_gt30": 936,
+   "ppw_bh_share_gt60": 0.1329,
+   "ppw_bh_counties_majority_gt60": 278,
+   "ppw_bh_women_unreachable": 12117.0,
+   "mh_any_share_gt30": 0.1871,
+   "mh_any_counties_majority_gt30": 354,
+   "mh_any_share_gt60": 0.0204,
+   "mh_any_counties_majority_gt60": 39,
+   "mh_any_women_unreachable": 13221.0,
+   "hc_share_gt30": 0.2344,
+   "hc_counties_majority_gt30": 416,
+   "hc_share_gt60": 0.0408,
+   "hc_counties_majority_gt60": 88,
+   "hc_women_unreachable": 5279.0
+  },
+  "Frontier": {
+   "counties": 417,
+   "women_15_44": 423145.0,
+   "ob_hosp_share_gt30": 0.6261,
+   "ob_hosp_counties_majority_gt30": 345,
+   "ob_hosp_share_gt60": 0.3405,
+   "ob_hosp_counties_majority_gt60": 190,
+   "ob_hosp_women_unreachable": 14152.0,
+   "ob_hosp_upper_share_gt30": 0.4108,
+   "ob_hosp_upper_counties_majority_gt30": 209,
+   "ob_hosp_upper_share_gt60": 0.1585,
+   "ob_hosp_upper_counties_majority_gt60": 88,
+   "ob_hosp_upper_women_unreachable": 11130.0,
+   "ob_clin_share_gt30": 0.7997,
+   "ob_clin_counties_majority_gt30": 374,
+   "ob_clin_share_gt60": 0.4735,
+   "ob_clin_counties_majority_gt60": 243,
+   "ob_clin_women_unreachable": 17091.0,
+   "ppw_bh_share_gt30": 0.7461,
+   "ppw_bh_counties_majority_gt30": 370,
+   "ppw_bh_share_gt60": 0.5341,
+   "ppw_bh_counties_majority_gt60": 278,
+   "ppw_bh_women_unreachable": 21906.0,
+   "mh_any_share_gt30": 0.4737,
+   "mh_any_counties_majority_gt30": 278,
+   "mh_any_share_gt60": 0.2463,
+   "mh_any_counties_majority_gt60": 147,
+   "mh_any_women_unreachable": 12605.0,
+   "hc_share_gt30": 0.5572,
+   "hc_counties_majority_gt30": 294,
+   "hc_share_gt60": 0.3389,
+   "hc_counties_majority_gt60": 181,
+   "hc_women_unreachable": 9368.0
+  },
+  "Rural or frontier": {
+   "counties": 1980,
+   "women_15_44": 8047307.0,
+   "ob_hosp_share_gt30": 0.3835,
+   "ob_hosp_counties_majority_gt30": 1135,
+   "ob_hosp_share_gt60": 0.0653,
+   "ob_hosp_counties_majority_gt60": 300,
+   "ob_hosp_women_unreachable": 17222.0,
+   "ob_hosp_upper_share_gt30": 0.2992,
+   "ob_hosp_upper_counties_majority_gt30": 729,
+   "ob_hosp_upper_share_gt60": 0.0299,
+   "ob_hosp_upper_counties_majority_gt60": 123,
+   "ob_hosp_upper_women_unreachable": 14200.0,
+   "ob_clin_share_gt30": 0.2939,
+   "ob_clin_counties_majority_gt30": 955,
+   "ob_clin_share_gt60": 0.0515,
+   "ob_clin_counties_majority_gt60": 308,
+   "ob_clin_women_unreachable": 18070.0,
+   "ppw_bh_share_gt30": 0.4941,
+   "ppw_bh_counties_majority_gt30": 1306,
+   "ppw_bh_share_gt60": 0.154,
+   "ppw_bh_counties_majority_gt60": 556,
+   "ppw_bh_women_unreachable": 34023.0,
+   "mh_any_share_gt30": 0.2021,
+   "mh_any_counties_majority_gt30": 632,
+   "mh_any_share_gt60": 0.0322,
+   "mh_any_counties_majority_gt60": 186,
+   "mh_any_women_unreachable": 25826.0,
+   "hc_share_gt30": 0.2513,
+   "hc_counties_majority_gt30": 710,
+   "hc_share_gt60": 0.0565,
+   "hc_counties_majority_gt60": 269,
+   "hc_women_unreachable": 14647.0
+  }
+ },
+ "n_counties": 3144,
+ "n_class": {
+  "rural": 1563,
+  "metro": 1164,
+  "frontier": 417
+ },
+ "n_metro_frontier": 22,
+ "n_states": 51,
+ "women_total": 65970543.0,
+ "women_share_rf": 0.12198333732071903,
+ "status_counts": {
+  "connected": 239420,
+  "separate_road_network": 259,
+  "no_road_within_25km": 62
+ },
+ "status_women": {
+  "connected": 65963356.0,
+  "no_road_within_25km": 5104.0,
+  "separate_road_network": 2083.0
+ },
+ "snap_q": {
+  "0.5": 0.0742949061402268,
+  "0.9": 0.3432277701511079,
+  "0.99": 1.0472234045196154
+ },
+ "state_mismatch_rows": 6,
+ "hosp_geocode_diff_gt2km": 55,
+ "county": {
+  "ob_hosp|30|All": {
+   "majority": 1410,
+   "all": 766,
+   "none": 283,
+   "n": 3143
+  },
+  "ob_hosp|30|Metro": {
+   "majority": 275,
+   "all": 67,
+   "none": 176,
+   "n": 1164
+  },
+  "ob_hosp|30|Rural": {
+   "majority": 790,
+   "all": 387,
+   "none": 99,
+   "n": 1563
+  },
+  "ob_hosp|30|Frontier": {
+   "majority": 345,
+   "all": 312,
+   "none": 8,
+   "n": 416
+  },
+  "ob_hosp|60|All": {
+   "majority": 305,
+   "all": 175,
+   "none": 2057,
+   "n": 3143
+  },
+  "ob_hosp|60|Metro": {
+   "majority": 5,
+   "all": 1,
+   "none": 967,
+   "n": 1164
+  },
+  "ob_hosp|60|Rural": {
+   "majority": 110,
+   "all": 34,
+   "none": 984,
+   "n": 1563
+  },
+  "ob_hosp|60|Frontier": {
+   "majority": 190,
+   "all": 140,
+   "none": 106,
+   "n": 416
+  },
+  "ob_hosp_upper|30|All": {
+   "majority": 939,
+   "all": 405,
+   "none": 444,
+   "n": 3143
+  },
+  "ob_hosp_upper|30|Metro": {
+   "majority": 210,
+   "all": 46,
+   "none": 192,
+   "n": 1164
+  },
+  "ob_hosp_upper|30|Rural": {
+   "majority": 520,
+   "all": 191,
+   "none": 179,
+   "n": 1563
+  },
+  "ob_hosp_upper|30|Frontier": {
+   "majority": 209,
+   "all": 168,
+   "none": 73,
+   "n": 416
+  },
+  "ob_hosp_upper|60|All": {
+   "majority": 125,
+   "all": 69,
+   "none": 2448,
+   "n": 3143
+  },
+  "ob_hosp_upper|60|Metro": {
+   "majority": 2,
+   "all": 1,
+   "none": 1015,
+   "n": 1164
+  },
+  "ob_hosp_upper|60|Rural": {
+   "majority": 35,
+   "all": 12,
+   "none": 1214,
+   "n": 1563
+  },
+  "ob_hosp_upper|60|Frontier": {
+   "majority": 88,
+   "all": 56,
+   "none": 219,
+   "n": 416
+  },
+  "ob_clin|30|All": {
+   "majority": 1099,
+   "all": 637,
+   "none": 475,
+   "n": 3143
+  },
+  "ob_clin|30|Metro": {
+   "majority": 144,
+   "all": 35,
+   "none": 347,
+   "n": 1164
+  },
+  "ob_clin|30|Rural": {
+   "majority": 581,
+   "all": 272,
+   "none": 123,
+   "n": 1563
+  },
+  "ob_clin|30|Frontier": {
+   "majority": 374,
+   "all": 330,
+   "none": 5,
+   "n": 416
+  },
+  "ob_clin|60|All": {
+   "majority": 310,
+   "all": 217,
+   "none": 2288,
+   "n": 3143
+  },
+  "ob_clin|60|Metro": {
+   "majority": 2,
+   "all": 1,
+   "none": 1049,
+   "n": 1164
+  },
+  "ob_clin|60|Rural": {
+   "majority": 65,
+   "all": 24,
+   "none": 1169,
+   "n": 1563
+  },
+  "ob_clin|60|Frontier": {
+   "majority": 243,
+   "all": 192,
+   "none": 70,
+   "n": 416
+  },
+  "ppw_bh|30|All": {
+   "majority": 1558,
+   "all": 997,
+   "none": 309,
+   "n": 3143
+  },
+  "ppw_bh|30|Metro": {
+   "majority": 252,
+   "all": 81,
+   "none": 214,
+   "n": 1164
+  },
+  "ppw_bh|30|Rural": {
+   "majority": 936,
+   "all": 571,
+   "none": 89,
+   "n": 1563
+  },
+  "ppw_bh|30|Frontier": {
+   "majority": 370,
+   "all": 345,
+   "none": 6,
+   "n": 416
+  },
+  "ppw_bh|60|All": {
+   "majority": 568,
+   "all": 376,
+   "none": 1836,
+   "n": 3143
+  },
+  "ppw_bh|60|Metro": {
+   "majority": 12,
+   "all": 2,
+   "none": 943,
+   "n": 1164
+  },
+  "ppw_bh|60|Rural": {
+   "majority": 278,
+   "all": 145,
+   "none": 830,
+   "n": 1563
+  },
+  "ppw_bh|60|Frontier": {
+   "majority": 278,
+   "all": 229,
+   "none": 63,
+   "n": 416
+  },
+  "mh_any|30|All": {
+   "majority": 709,
+   "all": 395,
+   "none": 668,
+   "n": 3143
+  },
+  "mh_any|30|Metro": {
+   "majority": 77,
+   "all": 18,
+   "none": 359,
+   "n": 1164
+  },
+  "mh_any|30|Rural": {
+   "majority": 354,
+   "all": 142,
+   "none": 280,
+   "n": 1563
+  },
+  "mh_any|30|Frontier": {
+   "majority": 278,
+   "all": 235,
+   "none": 29,
+   "n": 416
+  },
+  "mh_any|60|All": {
+   "majority": 188,
+   "all": 117,
+   "none": 2556,
+   "n": 3143
+  },
+  "mh_any|60|Metro": {
+   "majority": 2,
+   "all": 2,
+   "none": 1081,
+   "n": 1164
+  },
+  "mh_any|60|Rural": {
+   "majority": 39,
+   "all": 15,
+   "none": 1317,
+   "n": 1563
+  },
+  "mh_any|60|Frontier": {
+   "majority": 147,
+   "all": 100,
+   "none": 158,
+   "n": 416
+  },
+  "hc|30|All": {
+   "majority": 820,
+   "all": 486,
+   "none": 727,
+   "n": 3143
+  },
+  "hc|30|Metro": {
+   "majority": 110,
+   "all": 29,
+   "none": 353,
+   "n": 1164
+  },
+  "hc|30|Rural": {
+   "majority": 416,
+   "all": 209,
+   "none": 335,
+   "n": 1563
+  },
+  "hc|30|Frontier": {
+   "majority": 294,
+   "all": 248,
+   "none": 39,
+   "n": 416
+  },
+  "hc|60|All": {
+   "majority": 275,
+   "all": 177,
+   "none": 2471,
+   "n": 3143
+  },
+  "hc|60|Metro": {
+   "majority": 6,
+   "all": 2,
+   "none": 1087,
+   "n": 1164
+  },
+  "hc|60|Rural": {
+   "majority": 88,
+   "all": 46,
+   "none": 1253,
+   "n": 1563
+  },
+  "hc|60|Frontier": {
+   "majority": 181,
+   "all": 129,
+   "none": 131,
+   "n": 416
+  }
+ },
+ "crosstab30": {
+  "ppw|RF": {
+   "in_and_reach": 557,
+   "in_but_far": 38,
+   "none_but_reach": 116,
+   "none_and_far": 1268
+  },
+  "ppw|All": {
+   "in_and_reach": 1309,
+   "in_but_far": 42,
+   "none_but_reach": 276,
+   "none_and_far": 1516
+  },
+  "ob|RF": {
+   "in_and_reach": 694,
+   "in_but_far": 27,
+   "none_but_reach": 150,
+   "none_and_far": 1108
+  },
+  "ob|All": {
+   "in_and_reach": 1401,
+   "in_but_far": 32,
+   "none_but_reach": 332,
+   "none_and_far": 1378
+  }
+ },
+ "all3": {
+  "n": 108,
+  "frontier": 101,
+  "small": 67,
+  "women": 57448.0,
+  "states": {
+   "MT": 17,
+   "ND": 16,
+   "SD": 12,
+   "TX": 11,
+   "NE": 9,
+   "AK": 8,
+   "CO": 6,
+   "KS": 5
+  },
+  "n_states": 20
+ },
+ "state_top_ppw60": {
+  "AK": {
+   "women": 145641.0,
+   "ob_hosp_gt60": 0.1171,
+   "ppw_bh_gt60": 0.2487,
+   "hc_gt60": 0.0806,
+   "ob_hosp_gt30": 0.1584,
+   "ppw_bh_gt30": 0.3129,
+   "hc_gt30": 0.1118
+  },
+  "SD": {
+   "women": 167665.0,
+   "ob_hosp_gt60": 0.09,
+   "ppw_bh_gt60": 0.2356,
+   "hc_gt60": 0.1078,
+   "ob_hosp_gt30": 0.2992,
+   "ppw_bh_gt30": 0.4451,
+   "hc_gt30": 0.2905
+  },
+  "WY": {
+   "women": 109187.0,
+   "ob_hosp_gt60": 0.1098,
+   "ppw_bh_gt60": 0.1948,
+   "hc_gt60": 0.2424,
+   "ob_hosp_gt30": 0.2274,
+   "ppw_bh_gt30": 0.3415,
+   "hc_gt30": 0.3568
+  },
+  "MT": {
+   "women": 207746.0,
+   "ob_hosp_gt60": 0.1001,
+   "ppw_bh_gt60": 0.1829,
+   "hc_gt60": 0.0941,
+   "ob_hosp_gt30": 0.2139,
+   "ppw_bh_gt30": 0.2895,
+   "hc_gt30": 0.1849
+  },
+  "ND": {
+   "women": 156458.0,
+   "ob_hosp_gt60": 0.1106,
+   "ppw_bh_gt60": 0.1602,
+   "hc_gt60": 0.1024,
+   "ob_hosp_gt30": 0.223,
+   "ppw_bh_gt30": 0.2573,
+   "hc_gt30": 0.3176
+  },
+  "MS": {
+   "women": 584757.0,
+   "ob_hosp_gt60": 0.05,
+   "ppw_bh_gt60": 0.1476,
+   "hc_gt60": 0.0,
+   "ob_hosp_gt30": 0.2942,
+   "ppw_bh_gt30": 0.4818,
+   "hc_gt30": 0.0918
+  },
+  "KS": {
+   "women": 573832.0,
+   "ob_hosp_gt60": 0.0147,
+   "ppw_bh_gt60": 0.1043,
+   "hc_gt60": 0.0302,
+   "ob_hosp_gt30": 0.1384,
+   "ppw_bh_gt30": 0.2277,
+   "hc_gt30": 0.1197
+  },
+  "NM": {
+   "women": 405272.0,
+   "ob_hosp_gt60": 0.0494,
+   "ppw_bh_gt60": 0.1042,
+   "hc_gt60": 0.0171,
+   "ob_hosp_gt30": 0.1705,
+   "ppw_bh_gt30": 0.1923,
+   "hc_gt30": 0.0747
+  },
+  "AR": {
+   "women": 592370.0,
+   "ob_hosp_gt60": 0.0402,
+   "ppw_bh_gt60": 0.1038,
+   "hc_gt60": 0.0005,
+   "ob_hosp_gt30": 0.2327,
+   "ppw_bh_gt30": 0.3214,
+   "hc_gt30": 0.0542
+  },
+  "NE": {
+   "women": 386076.0,
+   "ob_hosp_gt60": 0.0115,
+   "ppw_bh_gt60": 0.0835,
+   "hc_gt60": 0.0751,
+   "ob_hosp_gt30": 0.0811,
+   "ppw_bh_gt30": 0.2458,
+   "hc_gt30": 0.2119
+  },
+  "MN": {
+   "women": 1108495.0,
+   "ob_hosp_gt60": 0.0109,
+   "ppw_bh_gt60": 0.0757,
+   "hc_gt60": 0.1338,
+   "ob_hosp_gt30": 0.0882,
+   "ppw_bh_gt30": 0.2215,
+   "hc_gt30": 0.3134
+  },
+  "OK": {
+   "women": 802035.0,
+   "ob_hosp_gt60": 0.0207,
+   "ppw_bh_gt60": 0.0741,
+   "hc_gt60": 0.0078,
+   "ob_hosp_gt30": 0.1767,
+   "ppw_bh_gt30": 0.2416,
+   "hc_gt30": 0.1074
+  }
+ },
+ "state_count_ppw60_gt10": 9,
+ "state_count_ob60_gt5": 6,
+ "state_zero_ob60": 7,
+ "sens": {
+  "All": {
+   "conf60": 0.0098,
+   "up60": 0.0046,
+   "conf30": 0.0898,
+   "up30": 0.0741
+  },
+  "Metro": {
+   "conf60": 0.0021,
+   "up60": 0.0011,
+   "conf30": 0.049,
+   "up30": 0.0428
+  },
+  "Rural": {
+   "conf60": 0.05,
+   "up60": 0.0228,
+   "conf30": 0.37,
+   "up30": 0.2931
+  },
+  "Frontier": {
+   "conf60": 0.3405,
+   "up60": 0.1585,
+   "conf30": 0.6261,
+   "up30": 0.4108
+  }
+ },
+ "sens_counties_change60": 261,
+ "sens_bg_any_change": 3258490.0,
+ "spearman": {
+  "ob_hosp|ppw_bh": 0.5599213462643587,
+  "ob_hosp|hc": 0.4522738753097404,
+  "ppw_bh|hc": 0.4882129423762968
+ },
+ "val_extra": {
+  "loa_low": -6.434717682613495,
+  "loa_high": 6.102510275206089,
+  "mean_diff": -0.16610370370370336,
+  "n": 450,
+  "p90_absdiff": 2.7695000000000127,
+  "n_absdiff_gt10": 8
+ },
+ "nv_all_beyond60_ob": [
+  "Esmeralda",
+  "Eureka",
+  "Lincoln",
+  "Mineral",
+  "Pershing"
+ ],
+ "nv_all_beyond60_ppw": [
+  "Esmeralda",
+  "Eureka",
+  "Humboldt",
+  "Lander",
+  "Lincoln",
+  "Pershing",
+  "White Pine"
+ ],
+ "nv_women": 623382.0,
+ "nv_share_ob60": 0.022737262224446646,
+ "nv_share_ppw60": 0.017531786288343263,
+ "nv_share_hc60": 0.023800815551299204,
+ "benchmarks": {
+  "rayburn_2012": {
+   "citation": "Rayburn WF, Richards ME, Elwell EC. Drive times to hospitals with perinatal care in the United States. Obstet Gynecol. 2012;119(3):611-616.",
+   "hospitals": 2606,
+   "data_year": "2007 AHA survey; 2010 Census; women 18-39",
+   "share_within_30": 0.875,
+   "share_within_60": 0.973
+  },
+  "fontenot_2024": {
+   "citation": "Fontenot J, Brigance C, Lucas R, Stoneburner A. Navigating geographical disparities: access to obstetric hospitals in maternity care deserts and across the United States. BMC Pregnancy Childbirth. 2024;24:350. doi:10.1186/s12884-024-06535-7",
+   "mean_minutes_tract_level": 14.1
+  }
+ },
+ "headline": {
+  "counties_majority_gt30_ob_hosp": 1410,
+  "counties_majority_gt60_ob_hosp": 305,
+  "counties_majority_gt30_ob_hosp_upper": 939,
+  "counties_majority_gt60_ob_hosp_upper": 125,
+  "counties_majority_gt30_ob_clin": 1099,
+  "counties_majority_gt60_ob_clin": 310,
+  "counties_majority_gt30_ppw_bh": 1558,
+  "counties_majority_gt60_ppw_bh": 568,
+  "counties_majority_gt30_mh_any": 709,
+  "counties_majority_gt60_mh_any": 188,
+  "counties_majority_gt30_hc": 820,
+  "counties_majority_gt60_hc": 275,
+  "rf_ppw_none_in_county": 1385,
+  "rf_ppw_none_in_county_but_most_within30": 116,
+  "rf_ppw_in_county_but_most_beyond30": 38,
+  "rf_majority_gt60_ob_hosp": 300,
+  "rf_women_gt60_ob_hosp": 525205.0,
+  "rf_majority_gt60_ob_hosp_upper": 123,
+  "rf_women_gt60_ob_hosp_upper": 240903.0,
+  "rf_majority_gt60_ob_clin": 308,
+  "rf_women_gt60_ob_clin": 414045.0,
+  "rf_majority_gt60_ppw_bh": 556,
+  "rf_women_gt60_ppw_bh": 1239576.0,
+  "rf_majority_gt60_mh_any": 186,
+  "rf_women_gt60_mh_any": 259383.0,
+  "rf_majority_gt60_hc": 269,
+  "rf_women_gt60_hc": 454562.0,
+  "counties_majority_gt60_all_three": 108,
+  "all_three_frontier": 101,
+  "all_three_small_women": 67,
+  "all_three_women": 57448.0,
+  "rf_counties_majority_gt60_all_three": 107,
+  "rf_majority_gt60_ppw_but_lt_half_ob": 336,
+  "this_project_ob_hosp_share_within_30": 0.9102,
+  "this_project_ob_hosp_share_within_60": 0.9902,
+  "this_project_ob_hosp_mean_min": 14.0
+ }
+}
