@@ -56,4 +56,4 @@ Your ORCID, GitHub, and Zenodo accounts from Project 1 are all you need.
 5. **Draft paper and documents.** Every number comes straight from the data.
 6. **Ready for your check.** You verify, then we publish.
 
-*You are here: step 6 (ready for your check). Start with VERIFY_CHECKLIST.md.*
+*You are here: released. v0.1.0 is on GitHub and Zenodo (DOI 10.5281/zenodo.24206837). Next: the preprint (docs/PUBLISH_GUIDE.md).*

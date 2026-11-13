@@ -86,6 +86,6 @@ The build made these choices provisionally. Agree with each one or change it. Ch
 - [ ] Your name, ORCID, affiliation, and email are correct in `AUTHORS.json` (copied from Project 1).
 - [ ] You have read `docs/LIMITATIONS.md` and `docs/METHODS_ROUTING.md`, and you agree with them.
 - [x] You tell Claude "verified". Claude rebuilt the files with `PANEL_FINAL=1` to remove the draft stamps (done 2026-11-13).
-- [ ] Reserve the DOI and write it in (`docs/PUBLISH_GUIDE.md`, steps 1 and 2). Then run `bash tools/gate.sh`. It passes once the DOI placeholders are filled. The gate's exceptions are listed, with reasons, inside `tools/gate.sh`.
+- [x] Published 2026-11-13: GitHub release v0.1.0, Zenodo DOI 10.5281/zenodo.24206837. `bash tools/gate.sh` passed before release.
 
 Verified by: Munachimso A. Emesobum  Date: 2026-11-13

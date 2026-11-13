@@ -2,7 +2,7 @@
 
 *Plain-language summary: what changed, and when. Each release on Zenodo matches one entry here.*
 
-## v0.1.0 (verified by the author 2026-11-13; not yet released)
+## v0.1.0 (released 2026-11-13; DOI 10.5281/zenodo.24206837)
 
 ### Changes made after the author's review, 2026-11-13
 

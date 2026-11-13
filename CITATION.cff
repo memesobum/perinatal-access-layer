@@ -3,6 +3,14 @@ message: "If you use these drive-time measures, please cite them as below. Each 
 type: dataset
 title: "Rural and Frontier Perinatal Care Access Layer: County Drive-Time Measures to Perinatal Care Service Types"
 version: "0.1.0"
+doi: "10.5281/zenodo.24206837"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.24206837"
+    description: "This version (v0.1.0)"
+  - type: doi
+    value: "10.5281/zenodo.24206836"
+    description: "All versions (concept DOI)"
 date-released: "2026-11-13"
 authors:
   - family-names: "Emesobum"
